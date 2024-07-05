@@ -37,7 +37,7 @@ const CurrencyComponent = () => {
                 <FaCoins />
                 <span>{currency}</span>
             </button>
-            {showCurrency && <ul className="border-2 divide-y flex flex-col absolute top-16">
+            {showCurrency && <ul className="bg-white border-2 divide-y flex flex-col absolute top-16">
                 {Currency.CurrencyList.map(c => (
                     <li className="font-medium hover:bg-red-500 hover:text-white">
                         <button
@@ -90,7 +90,7 @@ export function Header()
     const [toggle, setToggle] = useState(false);
 
     return (
-        <header className="relative border-b h-20 flex justify-center px-4">
+        <header className="relative z-10 border-b h-20 flex justify-center px-4">
             <div className="container flex justify-between items-center">
                 {/* Left Side */}
                 <div className="flex gap-4 items-center">
