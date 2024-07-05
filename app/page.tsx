@@ -1,5 +1,6 @@
 import { BannerComponent } from "./containers/banner";
 import { Categories } from "./containers/categories";
+import { Newsletter } from "./containers/newsletter";
 import { ShortFeatures } from "./containers/short-features";
 import { Banner } from "./lib/banner";
 
@@ -18,6 +19,7 @@ export default async function Home() {
         </div>
       </section>
       <ShortFeatures />
+      <Newsletter />
     </main>
   );
 }
