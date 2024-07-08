@@ -6,7 +6,7 @@ import { BiSupport } from "react-icons/bi";
 import { FaCoins } from "react-icons/fa6";
 import { MdOutlineMenu, MdOutlineShoppingCart } from "react-icons/md";
 import { FaBars } from "react-icons/fa6";
-import { Currency } from "../lib/curreny";
+import { CurrencyList, DefaultCurrency, getCurrencyRates } from "../lib/curreny";
 import { MdOutlineClose } from "react-icons/md";
 import { useState } from "react";
 import Link from "next/link";
@@ -25,8 +25,30 @@ const CartComponent = ({ notification }: { notification: boolean }) => {
 
 const CurrencyComponent = () => {
 
-    const [currency, setCurrency] = useState(Currency.getCurrencyPreference());
+    const [currency, setCurrency] = useState(getCurrencyPreference());
     const [showCurrency, setShowCurrency] = useState(false);
+
+    function setCurrencyPreference(currency: string)
+    {
+        const validCurrencies = CurrencyList;
+        if (validCurrencies.includes(currency)) {
+            localStorage.setItem('currencyPreference', currency);
+            console.log(`Currency preference set to: ${currency}`);
+        } else {
+            console.error(`Invalid currency: ${currency}. Valid options are: ${validCurrencies.join(", ")}`);
+        }
+    }
+
+    function getCurrencyPreference()
+    {
+        const currency = localStorage.getItem('currencyPreference');
+        
+        if (currency) {
+            return currency;
+        } else {
+            return DefaultCurrency;
+        }
+    }
 
     return (
         <div className="relative">
@@ -38,14 +60,14 @@ const CurrencyComponent = () => {
                 <span>{currency}</span>
             </button>
             {showCurrency && <ul className="bg-white border-2 divide-y flex flex-col absolute top-16">
-                {Currency.CurrencyList.map((c,i) => (
+                {CurrencyList.map((c,i) => (
                     <li key={i} className="font-medium hover:bg-red-500 hover:text-white">
                         <button
                             className="pl-4 pr-8 py-2"
                             onClick={() => {
-                                Currency.setCurrencyPreference(c);
+                                setCurrencyPreference(c);
                                 setCurrency(c);
-                                Currency.getCurrencyRates();
+                                getCurrencyRates();
                                 setShowCurrency(false);
                             }}
                         >
@@ -118,7 +140,7 @@ export function Header()
                     <div className="hidden md:flex gap-4 lg:gap-8 items-center">
                         <NotLoggedInComponent />
                         <CartComponent notification={true} />
-                        <CurrencyComponent />
+                        {(typeof window != "undefined") && <CurrencyComponent />}
                         <HelpComponent />
                     </div>
                 </div>
@@ -129,7 +151,7 @@ export function Header()
                     <SearchComponent />
                     <div className="flex flex-col gap-8">
                         <CartComponent notification={true} />
-                        <CurrencyComponent />
+                        {(typeof window != "undefined") && <CurrencyComponent />}
                         <HelpComponent />
                     </div>
                     <NotLoggedInComponent />
