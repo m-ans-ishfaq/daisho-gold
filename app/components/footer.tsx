@@ -97,7 +97,7 @@ export function Footer()
                 {/* Social Links */}
                 <div className="lg:ml-auto flex gap-4">
                     {socialLinks.map(({Icon, href}, i) => (
-                        <Link href={href} className="hover:text-red-500">
+                        <Link key={i} href={href} className="hover:text-red-500">
                             <Icon size={32} />
                         </Link>
                     ))}

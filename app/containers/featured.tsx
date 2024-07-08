@@ -5,12 +5,10 @@ import { BiSearch } from "react-icons/bi"
 import { IProduct, ProductCard } from "../components/product-card"
 
 function getFeaturedProducts() {
-    // Simulate an API call to fetch the initial products
     return DUMMY_PRODUCTS;
 }
 
 function getMoreFeaturedProducts(currentProducts: IProduct[]) {
-    // Simulate an API call to fetch more products and concatenate with the current products
     return [...currentProducts, ...DUMMY_PRODUCTS];
 }
 

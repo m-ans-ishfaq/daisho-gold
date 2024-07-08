@@ -38,8 +38,8 @@ const CurrencyComponent = () => {
                 <span>{currency}</span>
             </button>
             {showCurrency && <ul className="bg-white border-2 divide-y flex flex-col absolute top-16">
-                {Currency.CurrencyList.map(c => (
-                    <li className="font-medium hover:bg-red-500 hover:text-white">
+                {Currency.CurrencyList.map((c,i) => (
+                    <li key={i} className="font-medium hover:bg-red-500 hover:text-white">
                         <button
                             className="pl-4 pr-8 py-2"
                             onClick={() => {
