@@ -71,7 +71,7 @@ export function Footer()
 {
     return (
         <footer className="p-4 py-12 flex justify-center">
-            <div className="container grid grid-cols-4">
+            <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="flex flex-col gap-2">
                     {/* Logo */}
                     <Link href="/" className="flex flex-col gap-2 cursor-pointer">
@@ -95,7 +95,7 @@ export function Footer()
                     </div>
                 ))}
                 {/* Social Links */}
-                <div className="ml-auto flex gap-4">
+                <div className="lg:ml-auto flex gap-4">
                     {socialLinks.map(({Icon, href}, i) => (
                         <Link href={href} className="hover:text-red-500">
                             <Icon size={32} />

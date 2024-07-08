@@ -45,6 +45,7 @@ const CurrencyComponent = () => {
                             onClick={() => {
                                 Currency.setCurrencyPreference(c);
                                 setCurrency(c);
+                                Currency.getCurrencyRates();
                                 setShowCurrency(false);
                             }}
                         >
@@ -90,7 +91,7 @@ export function Header()
     const [toggle, setToggle] = useState(false);
 
     return (
-        <header className="relative z-10 border-b h-20 flex justify-center px-4">
+        <header className="relative z-[1001] border-b h-20 flex justify-center px-4">
             <div className="container flex justify-between items-center">
                 {/* Left Side */}
                 <div className="flex gap-4 items-center">
@@ -123,7 +124,7 @@ export function Header()
                 </div>
             </div>
             {/* Mobile Exclusive */}
-            <div className={`transition-all duration-300 p-4 flex justify-center bg-neutral-100 fixed z-10 top-20 ${toggle ? 'left-0' : 'left-full'} w-full h-[calc(100vh-80px)]`}>
+            <div className={`transition-all duration-300 p-4 flex justify-center bg-neutral-100 fixed z-[1001] top-20 ${toggle ? 'left-0' : 'left-full'} w-full h-[calc(100vh-80px)]`}>
                 <div className="container flex flex-col gap-8">
                     <SearchComponent />
                     <div className="flex flex-col gap-8">

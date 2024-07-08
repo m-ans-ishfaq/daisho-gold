@@ -22,7 +22,7 @@ export function Newsletter()
                             placeholder="Your Email Address"
                         />
                         <button className="bg-red-500 text-white hover:bg-yellow-500 px-4 py-2 rounded-r-sm">
-                            Search
+                            Submit
                         </button>
                     </div>
                 </div>
