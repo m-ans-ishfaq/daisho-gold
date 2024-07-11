@@ -9,11 +9,13 @@ import { CurrencyList, DefaultCurrency, getCurrencyPreference, getCurrencyRates,
 import { MdOutlineClose } from "react-icons/md";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { BiCategory } from "react-icons/bi";
+import { Categories } from "../containers/categories";
+import { Category } from "../lib/category";
 
 const CartComponent = ({ notification }: { notification: boolean }) => {
     return (
-        <Link href="/cart" className="flex items-center gap-2 text-xl font-semibold hover:text-red-500">
+        <Link href="/cart" className="flex items-center gap-2 font-semibold hover:text-red-500">
             <div className="relative text-2xl">
                 <MdOutlineShoppingCart />
                 {notification && <div className="absolute w-2 h-2 rounded-full bg-red-500 top-0 right-0" />}
@@ -27,13 +29,12 @@ const CurrencyComponent = () => {
 
     const [currency, setCurrency] = useState(getCurrencyPreference());
     const [showCurrency, setShowCurrency] = useState(false);
-    const router = useRouter();
 
     return (
         <div className="relative">
             <button
                 onClick={() => setShowCurrency(c => !c)}
-                className="flex items-center gap-2 text-xl font-semibold hover:text-red-500"
+                className="flex items-center gap-2 font-semibold hover:text-red-500"
             >
                 <FaCoins />
                 <span>{currency}</span>
@@ -60,6 +61,33 @@ const CurrencyComponent = () => {
     )
 }
 
+const CategoryComponent = () => {
+
+    const categories = Category.getCategories();
+
+    return (
+        <div className="group relative">
+            <button
+                className="flex items-center gap-2 font-semibold hover:text-red-500"
+            >
+                <BiCategory />
+                <span>Categories</span>
+            </button>
+            <div className="hidden group-focus-within:flex bg-white border-2 divide-y flex-col absolute top-16">
+                {categories.map((c,i) => (
+                    <Link
+                        key={i}
+                        href={`/category/${encodeURIComponent(c)}`}
+                        className="cursor-pointer py-2 pl-4 pr-8 w-40 font-medium hover:bg-red-500 hover:text-white"
+                    >
+                        {c}
+                    </Link>
+                ))}
+            </div>
+        </div>
+    )
+}
+
 const SearchComponent = () => {
     return (
         <div className="relative w-full">
@@ -75,7 +103,7 @@ const SearchComponent = () => {
 }
 
 const AboutUsComponent = () => (
-    <Link href="/about-us" className="flex items-center gap-2 text-xl font-semibold hover:text-red-500">
+    <Link href="/about-us" className="flex items-center gap-2 font-semibold hover:text-red-500">
         <BiSupport />
         <span>About Us</span>
     </Link>
@@ -119,6 +147,7 @@ export function Header()
                     {/* Desktop Exclusive */}
                     <div className="hidden md:flex gap-4 lg:gap-8 items-center">
                         <NotLoggedInComponent />
+                        <CategoryComponent />
                         <CartComponent notification={true} />
                         {(typeof window != "undefined") && <CurrencyComponent />}
                         <AboutUsComponent />
@@ -131,6 +160,7 @@ export function Header()
                     <SearchComponent />
                     <div className="flex flex-col gap-8">
                         <CartComponent notification={true} />
+                        <CategoryComponent />
                         {(typeof window != "undefined") && <CurrencyComponent />}
                         <AboutUsComponent />
                     </div>
