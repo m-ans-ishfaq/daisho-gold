@@ -11,14 +11,12 @@ export default async function Home() {
 
   return (
     <main>
-      <section className="w-full p-4 flex flex-col items-center">
-        <div className="container flex flex-col-reverse xl:grid xl:grid-cols-3 gap-4">
-          <Categories />
-          <div className="h-full col-span-2">
-            <BannerComponent images={bannerImages} />
-          </div>
-        </div>
-      </section>
+      <div className="relative w-full">
+        <BannerComponent images={bannerImages} />
+        <button className="text-black tracking-widest bg-white font-bold bg-opacity-75 text-[100%] px-[4%] py-[1%] absolute z-[1001] hidden md:flex bottom-[30%] left-[8.5%]">
+            SHOP NOW
+        </button>
+      </div>
       <ShortFeatures />
       <Featured />
       <Newsletter />

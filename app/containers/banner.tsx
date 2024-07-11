@@ -27,11 +27,13 @@ export function BannerComponent({ images }: { images: StaticImageData[] })
     return (
         <Carousel
             responsive={responsive} 
-            showDots={true}
             infinite={true}
             autoPlay={true}
             autoPlaySpeed={3000}
-            arrows={true}
+            arrows={false}
+            showDots={false}
+            swipeable={false}
+            draggable={false}
             deviceType={"desktop"}
         >
             {images.map((pic, index) => (

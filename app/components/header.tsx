@@ -74,10 +74,10 @@ const SearchComponent = () => {
     )
 }
 
-const HelpComponent = () => (
-    <Link href="/help" className="flex items-center gap-2 text-xl font-semibold hover:text-red-500">
+const AboutUsComponent = () => (
+    <Link href="/about-us" className="flex items-center gap-2 text-xl font-semibold hover:text-red-500">
         <BiSupport />
-        <span>Help</span>
+        <span>About Us</span>
     </Link>
 );
 
@@ -121,7 +121,7 @@ export function Header()
                         <NotLoggedInComponent />
                         <CartComponent notification={true} />
                         {(typeof window != "undefined") && <CurrencyComponent />}
-                        <HelpComponent />
+                        <AboutUsComponent />
                     </div>
                 </div>
             </div>
@@ -132,7 +132,7 @@ export function Header()
                     <div className="flex flex-col gap-8">
                         <CartComponent notification={true} />
                         {(typeof window != "undefined") && <CurrencyComponent />}
-                        <HelpComponent />
+                        <AboutUsComponent />
                     </div>
                     <NotLoggedInComponent />
                 </div>
