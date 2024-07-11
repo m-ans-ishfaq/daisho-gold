@@ -4,7 +4,7 @@ import { NewsletterBg } from "../assets";
 export function Newsletter()
 {
     return (
-        <section id="newsletter" className="relative p-4 py-28 flex justify-center">
+        <section id="newsletter" className="relative p-4 py-40 flex justify-center">
             <div className="container flex justify-center items-center">
                 <div className="absolute z-[1] w-full h-full top-0 left-0 bg-black" />
                 <Image src={NewsletterBg} alt="" className="absolute z-[2] opacity-30 w-full h-full top-0 left-0 object-cover object-center" />
