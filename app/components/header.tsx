@@ -5,11 +5,11 @@ import { IoSearch } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
 import { FaCoins } from "react-icons/fa6";
 import { MdOutlineMenu, MdOutlineShoppingCart } from "react-icons/md";
-import { FaBars } from "react-icons/fa6";
-import { CurrencyList, DefaultCurrency, getCurrencyRates } from "../lib/curreny";
+import { CurrencyList, DefaultCurrency, getCurrencyPreference, getCurrencyRates, setCurrencyPreference } from "../lib/curreny";
 import { MdOutlineClose } from "react-icons/md";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const CartComponent = ({ notification }: { notification: boolean }) => {
     return (
@@ -27,28 +27,7 @@ const CurrencyComponent = () => {
 
     const [currency, setCurrency] = useState(getCurrencyPreference());
     const [showCurrency, setShowCurrency] = useState(false);
-
-    function setCurrencyPreference(currency: string)
-    {
-        const validCurrencies = CurrencyList;
-        if (validCurrencies.includes(currency)) {
-            localStorage.setItem('currencyPreference', currency);
-            console.log(`Currency preference set to: ${currency}`);
-        } else {
-            console.error(`Invalid currency: ${currency}. Valid options are: ${validCurrencies.join(", ")}`);
-        }
-    }
-
-    function getCurrencyPreference()
-    {
-        const currency = localStorage.getItem('currencyPreference');
-        
-        if (currency) {
-            return currency;
-        } else {
-            return DefaultCurrency;
-        }
-    }
+    const router = useRouter();
 
     return (
         <div className="relative">
@@ -69,6 +48,7 @@ const CurrencyComponent = () => {
                                 setCurrency(c);
                                 getCurrencyRates();
                                 setShowCurrency(false);
+                                location.reload();
                             }}
                         >
                             {c}

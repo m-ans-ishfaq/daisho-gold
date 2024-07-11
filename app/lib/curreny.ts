@@ -1,12 +1,33 @@
-"use client";
 const conversionRatesCached = {
     time: new Date(),
     rates: {}
 };
 
-export const DefaultCurrency = "PKR";
-export const CurrencyList = ["BRL", "INR", "BDT", "PKR", "THB", "NPR"];
+export const DefaultCurrency = "USD";
+export const CurrencyList = ["USD", "BRL", "INR", "BDT", "PKR", "THB", "NPR"];
 export const CurrencyExchangeHref = "https://v6.exchangerate-api.com/v6/aef802c29aa2bc8c68134eb3/latest/USD";
+
+export function setCurrencyPreference(currency: string)
+{
+    const validCurrencies = CurrencyList;
+    if (validCurrencies.includes(currency)) {
+        localStorage.setItem('currencyPreference', currency);
+        console.log(`Currency preference set to: ${currency}`);
+    } else {
+        console.error(`Invalid currency: ${currency}. Valid options are: ${validCurrencies.join(", ")}`);
+    }
+}
+
+export function getCurrencyPreference()
+{
+    const currency = localStorage.getItem('currencyPreference');
+    
+    if (currency) {
+        return currency;
+    } else {
+        return DefaultCurrency;
+    }
+}
 
 export async function getCurrencyRates()
 {
@@ -26,5 +47,31 @@ export async function getCurrencyRates()
         return conversionRatesCached.rates;
     } catch (err) {
         console.error(err);
+    }
+}
+
+export async function convertPrice(price: number, currency: string) {
+    const currencyRates = await getCurrencyRates() as any;
+    const currencyPreference = getCurrencyPreference();
+
+    if (currencyRates && currencyPreference in currencyRates) {
+        const conversionRate = parseFloat(currencyRates[currencyPreference]);
+
+        let convertedPrice: number;
+        if (currency === "USD") {
+        // Convert from USD to the preferred currency
+        convertedPrice = price * conversionRate;
+        } else {
+        // Convert from the given currency to USD first, then to the preferred currency
+        const usdToGivenCurrencyRate = parseFloat(currencyRates[currency]);
+        convertedPrice = (price / usdToGivenCurrencyRate) * conversionRate;
+        }
+
+        convertedPrice = parseFloat(convertedPrice.toFixed(2));
+
+        return { currency: currencyPreference, price: convertedPrice };
+    } else {
+        // Handle the case where currency rates are undefined or preferred currency is not found
+        return { currency: currency, price: price };
     }
 }
