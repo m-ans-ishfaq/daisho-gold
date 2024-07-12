@@ -7,7 +7,7 @@ import { FaCoins } from "react-icons/fa6";
 import { MdOutlineMenu, MdOutlineShoppingCart } from "react-icons/md";
 import { CurrencyList, DefaultCurrency, getCurrencyPreference, getCurrencyRates, setCurrencyPreference } from "../lib/curreny";
 import { MdOutlineClose } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BiCategory } from "react-icons/bi";
 import { Categories } from "../containers/categories";
@@ -27,8 +27,12 @@ const CartComponent = ({ notification }: { notification: boolean }) => {
 
 const CurrencyComponent = () => {
 
-    const [currency, setCurrency] = useState(getCurrencyPreference());
+    const [currency, setCurrency] = useState<string|undefined>(undefined);
     const [showCurrency, setShowCurrency] = useState(false);
+
+    useEffect(() => {
+        setCurrency(getCurrencyPreference());
+    }, []);
 
     return (
         <div className="relative">
@@ -37,7 +41,7 @@ const CurrencyComponent = () => {
                 className="flex items-center gap-2 font-semibold hover:text-red-500"
             >
                 <FaCoins />
-                <span>{currency}</span>
+                <span>{currency ?? "USD"}</span>
             </button>
             {showCurrency && <ul className="bg-white border-2 divide-y flex flex-col absolute top-16">
                 {CurrencyList.map((c,i) => (
@@ -149,7 +153,7 @@ export function Header()
                         <NotLoggedInComponent />
                         <CategoryComponent />
                         <CartComponent notification={true} />
-                        {(typeof window != "undefined") && <CurrencyComponent />}
+                         <CurrencyComponent />
                         <AboutUsComponent />
                     </div>
                 </div>
@@ -161,7 +165,7 @@ export function Header()
                     <div className="flex flex-col gap-8">
                         <CartComponent notification={true} />
                         <CategoryComponent />
-                        {(typeof window != "undefined") && <CurrencyComponent />}
+                        <CurrencyComponent />
                         <AboutUsComponent />
                     </div>
                     <NotLoggedInComponent />
