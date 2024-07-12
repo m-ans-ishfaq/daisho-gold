@@ -165,6 +165,14 @@ export function Header()
 {
     const [toggle, setToggle] = useState(false);
 
+    useEffect(() => {
+        if (toggle) {
+            document.body.classList.add('no-scroll');
+        } else {
+            document.body.classList.remove('no-scroll');
+        }
+    });
+
     return (
         <header className="relative z-[1001] border-b h-20 flex justify-center px-4">
             <div className="container flex justify-between items-center">
@@ -200,7 +208,7 @@ export function Header()
                 </div>
             </div>
             {/* Mobile Exclusive */}
-            <div className={`transition-all duration-300 p-4 flex justify-center bg-neutral-100 absolute z-[1001] top-20 ${toggle ? 'left-0' : 'left-full'} w-full min-h-[calc(100vh-80px)]`}>
+            <div className={`transition-all duration-300 p-4 flex justify-center bg-neutral-100 fixed z-50 overflow-y-auto top-20 ${toggle ? 'left-0' : 'left-full'} w-full h-[calc(100vh-5rem)]`}>
                 <div className="container flex flex-col gap-8">
                     <SearchComponent />
                     <div className="flex flex-col gap-8">
@@ -209,7 +217,9 @@ export function Header()
                         <CurrencyComponent />
                         <AboutUsComponent />
                     </div>
-                    <NotLoggedInComponent />
+                    <div className="pb-8">
+                        <NotLoggedInComponent />
+                    </div>
                 </div>
             </div>
         </header>
