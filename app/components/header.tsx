@@ -3,16 +3,17 @@ import Image from "next/image";
 import { DaishoGoldLogo } from "../assets";
 import { IoSearch } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
-import { FaCoins } from "react-icons/fa6";
+import { FaChevronUp, FaCoins } from "react-icons/fa6";
 import { MdOutlineMenu, MdOutlineShoppingCart } from "react-icons/md";
 import { CurrencyList, DefaultCurrency, getCurrencyPreference, getCurrencyRates, setCurrencyPreference } from "../lib/curreny";
 import { MdOutlineClose } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { BiCategory } from "react-icons/bi";
 import { Categories } from "../containers/categories";
 import { Category } from "../lib/category";
 import { useCurrency } from "../context/currencyContext";
+import { FaChevronDown } from "react-icons/fa6";
 
 const CartComponent = ({ notification }: { notification: boolean }) => {
     return (
@@ -32,15 +33,39 @@ const CurrencyComponent = () => {
     const [showCurrency, setShowCurrency] = useState(false);
 
     return (
-        <div className="relative">
-            <button
-                onClick={() => setShowCurrency(c => !c)}
-                className="flex items-center gap-2 font-semibold hover:text-red-500"
-            >
-                <FaCoins />
-                <span>{currency ?? "USD"}</span>
-            </button>
-            {showCurrency && <ul className="bg-white border-2 divide-y flex flex-col absolute top-16">
+        <div className="flex group flex-col gap-4 group relative">
+            <div onClick={() => setShowCurrency(x => !x)} className="flex justify-between items-center">
+                <button
+                    className="flex items-center gap-2 font-semibold hover:text-red-500"
+                >
+                    <FaCoins />
+                    <span>{currency ?? "USD"}</span>
+                </button>
+                {/* Mobile */}
+                <button className="lg:hidden">
+                    {showCurrency ? <FaChevronDown /> : <FaChevronUp />}
+                </button>
+            </div>
+            {/* Mobile */}
+            {showCurrency && <div className="lg:hidden flex flex-col divide-y">
+                {CurrencyList.map((c,i) => (
+                    <li key={i} className="list-none font-medium hover:bg-red-500 hover:text-white">
+                        <button
+                            className="pl-4 pr-8 py-2"
+                            onClick={() => {
+                                setCurrencyPreference(c);
+                                setCurrency(c);
+                                getCurrencyRates();
+                                setShowCurrency(false);
+                            }}
+                        >
+                            {c}
+                        </button>
+                    </li>
+                ))}
+            </div>}
+            {/* Desktop */}
+            <ul className="bg-white border-2 divide-y hidden lg:group-focus-within:flex flex-col absolute top-16">
                 {CurrencyList.map((c,i) => (
                     <li key={i} className="font-medium hover:bg-red-500 hover:text-white">
                         <button
@@ -56,24 +81,44 @@ const CurrencyComponent = () => {
                         </button>
                     </li>
                 ))}
-            </ul>}
+            </ul>
         </div>
     )
 }
 
 const CategoryComponent = () => {
 
+    const [showCategories, setShowCategories] = useState(false);
     const categories = Category.getCategories();
 
     return (
-        <div className="group relative">
-            <button
-                className="flex items-center gap-2 font-semibold hover:text-red-500"
-            >
-                <BiCategory />
-                <span>Categories</span>
-            </button>
-            <div className="hidden group-focus-within:flex bg-white border-2 divide-y flex-col absolute top-16">
+        <div className="flex flex-col gap-4 group relative">
+            <div onClick={() => setShowCategories(x => !x)} className="flex justify-between items-center">
+                <button
+                    className="flex items-center gap-2 font-semibold hover:text-red-500"
+                >
+                    <BiCategory />
+                    <span>Categories</span>
+                </button>
+                {/* Mobile */}
+                <button className="lg:hidden">
+                    {showCategories ? <FaChevronDown /> : <FaChevronUp />}
+                </button>
+            </div>
+            {/* Mobile */}
+            {showCategories && <div className="lg:hidden flex flex-col divide-y">
+                {categories.map((c,i) => (
+                    <Link
+                        key={i}
+                        href={`/category/${encodeURIComponent(c)}`}
+                        className="cursor-pointer py-2 pl-4 pr-8 w-full font-medium hover:bg-red-500 hover:text-white"
+                    >
+                        {c}
+                    </Link>
+                ))}
+            </div>}
+            {/* Desktop */}
+            <div className="hidden lg:group-focus-within:flex bg-white border-2 divide-y flex-col absolute top-16">
                 {categories.map((c,i) => (
                     <Link
                         key={i}
@@ -155,7 +200,7 @@ export function Header()
                 </div>
             </div>
             {/* Mobile Exclusive */}
-            <div className={`transition-all duration-300 p-4 flex justify-center bg-neutral-100 fixed z-[1001] top-20 ${toggle ? 'left-0' : 'left-full'} w-full h-[calc(100vh-80px)]`}>
+            <div className={`transition-all duration-300 p-4 flex justify-center bg-neutral-100 absolute z-[1001] top-20 ${toggle ? 'left-0' : 'left-full'} w-full min-h-[calc(100vh-80px)]`}>
                 <div className="container flex flex-col gap-8">
                     <SearchComponent />
                     <div className="flex flex-col gap-8">
