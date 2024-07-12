@@ -12,6 +12,7 @@ import Link from "next/link";
 import { BiCategory } from "react-icons/bi";
 import { Categories } from "../containers/categories";
 import { Category } from "../lib/category";
+import { useCurrency } from "../context/currencyContext";
 
 const CartComponent = ({ notification }: { notification: boolean }) => {
     return (
@@ -27,12 +28,8 @@ const CartComponent = ({ notification }: { notification: boolean }) => {
 
 const CurrencyComponent = () => {
 
-    const [currency, setCurrency] = useState<string|undefined>(undefined);
+    const { currency, setCurrency } = useCurrency();
     const [showCurrency, setShowCurrency] = useState(false);
-
-    useEffect(() => {
-        setCurrency(getCurrencyPreference());
-    }, []);
 
     return (
         <div className="relative">
@@ -53,7 +50,6 @@ const CurrencyComponent = () => {
                                 setCurrency(c);
                                 getCurrencyRates();
                                 setShowCurrency(false);
-                                location.reload();
                             }}
                         >
                             {c}

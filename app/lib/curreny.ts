@@ -50,28 +50,26 @@ export async function getCurrencyRates()
     }
 }
 
-export async function convertPrice(price: number, currency: string) {
-    const currencyRates = await getCurrencyRates() as any;
-    const currencyPreference = getCurrencyPreference();
-
-    if (currencyRates && currencyPreference in currencyRates) {
-        const conversionRate = parseFloat(currencyRates[currencyPreference]);
-
-        let convertedPrice: number;
-        if (currency === "USD") {
-        // Convert from USD to the preferred currency
+export async function convertPrice(price: number, currency: string, targetCurrency: string, currencyRates: any) {
+    if (currencyRates && targetCurrency in currencyRates) {
+      const conversionRate = parseFloat(currencyRates[targetCurrency]);
+  
+      let convertedPrice;
+      if (currency === 'USD') {
+        // Convert from USD to the target currency
         convertedPrice = price * conversionRate;
-        } else {
-        // Convert from the given currency to USD first, then to the preferred currency
+      } else {
+        // Convert from the given currency to USD first, then to the target currency
         const usdToGivenCurrencyRate = parseFloat(currencyRates[currency]);
         convertedPrice = (price / usdToGivenCurrencyRate) * conversionRate;
-        }
-
-        convertedPrice = parseFloat(convertedPrice.toFixed(2));
-
-        return { currency: currencyPreference, price: convertedPrice };
+      }
+  
+      convertedPrice = parseFloat(convertedPrice.toFixed(2));
+  
+      return { currency: targetCurrency, price: convertedPrice };
     } else {
-        // Handle the case where currency rates are undefined or preferred currency is not found
-        return { currency: currency, price: price };
+      // Handle the case where currency rates are undefined or target currency is not found
+      return { currency: currency, price: price };
     }
-}
+  }
+  

@@ -2,7 +2,8 @@ import Image, { StaticImageData } from "next/image";
 import { FaStar } from "react-icons/fa6";
 import { RiCouponLine } from "react-icons/ri";
 import { convertPrice } from "../lib/curreny";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useCurrency } from "../context/currencyContext";
 
 export interface IProduct
 {
@@ -19,18 +20,19 @@ export interface IProduct
 
 export function ProductCard({ productProps }: { productProps: IProduct })
 {
-    const { outOfStock, title, isCouponAvailable, reviews, rating, sold, price, currency, image } = productProps;
+    const { currency, currencyRates } = useCurrency();
+    const { outOfStock, title, isCouponAvailable, reviews, rating, sold, price, currency: productCurrency, image } = productProps;
     const [amount, setAmount] = useState<{ currency: string, price: number }>({ currency, price });
 
     const stars = new Array(5).fill(0)
                 .map((x,i) => i < rating);
     
     useEffect(() => {
-        convertPrice(price, currency)
+        convertPrice(price, productCurrency, currency, currencyRates)
         .then(am => {
             setAmount({ currency: am.currency, price: am.price });
         })
-    }, []);
+    }, [currency]);
     
     return (
         <article className="relative p-4 border border-neutral-200 cursor-pointer hover:shadow-lg hover:border-neutral-700 flex flex-col gap-4">
