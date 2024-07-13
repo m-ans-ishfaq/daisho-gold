@@ -1,6 +1,9 @@
 import Image, { StaticImageData } from "next/image";
 import { FaStar } from "react-icons/fa6";
 import { RiCouponLine } from "react-icons/ri";
+import { convertPrice } from "../lib/curreny";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useCurrency } from "../context/currencyContext";
 
 export interface IProduct
 {
@@ -10,17 +13,27 @@ export interface IProduct
     reviews: number,
     sold: number,
     rating: number,
-    price: string,
+    price: number,
+    currency: string,
     image: StaticImageData
 }
 
 export function ProductCard({ productProps }: { productProps: IProduct })
 {
-    const { outOfStock, title, isCouponAvailable, reviews, rating, sold, price, image } = productProps;
+    const { currency, currencyRates } = useCurrency();
+    const { outOfStock, title, isCouponAvailable, reviews, rating, sold, price, currency: productCurrency, image } = productProps;
+    const [amount, setAmount] = useState<{ currency: string, price: number }>({ currency, price });
+
     const stars = new Array(5).fill(0)
-                    .map((x,i) => i < rating);
-    console.log(new Array(5).fill(0)
-    .map((x,i) => i < rating));
+                .map((x,i) => i < rating);
+    
+    useEffect(() => {
+        convertPrice(price, productCurrency, currency, currencyRates)
+        .then(am => {
+            setAmount({ currency: am.currency, price: am.price });
+        })
+    }, [currency]);
+    
     return (
         <article className="relative p-4 border border-neutral-200 cursor-pointer hover:shadow-lg hover:border-neutral-700 flex flex-col gap-4">
             {outOfStock && <span className="bg-red-500 text-white py-1 px-4 text-sm font-medium absolute rounded-full top-4 right-4">OUT OF STOCK</span>}
@@ -45,7 +58,7 @@ export function ProductCard({ productProps }: { productProps: IProduct })
                             ))} 
                         </span>
                         <span className="text-2xl font-semibold">
-                            {price}
+                            {amount.currency} {amount.price}
                         </span>
                     </div>
                 </div>
