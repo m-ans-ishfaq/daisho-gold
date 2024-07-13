@@ -185,20 +185,20 @@ export function Header()
                             DAISHO GOLD
                         </span>
                     </Link>
-                    <div className="hidden lg:flex">
+                    <div className="hidden xl:flex">
                         <SearchComponent />
                     </div>
                 </div>
                 {/* Right Side */}
                 <div className="flex gap-4 lg:gap-8 items-center">
                     <button
-                        className="md:hidden text-4xl"
+                        className="lg:hidden text-4xl"
                         onClick={() => setToggle(x => !x)}
                     >
                         {toggle ? <MdOutlineClose /> : <MdOutlineMenu />}
                     </button>
                     {/* Desktop Exclusive */}
-                    <div className="hidden md:flex gap-4 lg:gap-8 items-center">
+                    <div className="hidden lg:flex gap-4 lg:gap-8 items-center">
                         <NotLoggedInComponent />
                         <CategoryComponent />
                         <CartComponent notification={true} />
