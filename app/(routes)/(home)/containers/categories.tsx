@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Category } from "../lib/category";
+import { Category } from "../../../lib/category";
 import Image from "next/image";
 
 export function Categories()

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { NewsletterBg } from "../assets";
+import { NewsletterBg } from "../../../assets";
 
 export function Newsletter()
 {

@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa6';
+import { signIn, useSession } from 'next-auth/react';
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,7 +12,6 @@ export const LoginForm = () => {
   const initialValues = {
     email: '',
     password: '',
-    rememberme: false,
   };
 
   const validationSchema = Yup.object({
@@ -25,8 +25,12 @@ export const LoginForm = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
-            console.log(values);
+        onSubmit={async (values, { setSubmitting }) => {
+            const result = await signIn("credentials", {
+              email: values.email,
+              password: values.password
+            });
+            console.log(result);
             setSubmitting(false);
         }}
       >
@@ -65,17 +69,10 @@ export const LoginForm = () => {
               </div>
             </div>
 
-            <div className="form-group flex items-center">
-              <Field
-                required
-                type="checkbox"
-                name="rememberme"
-                id="rememberme"
-                className="h-4 w-4 text-yellow-500 focus:ring-yellow-400 border-gray-300 rounded"
-              />
-              <label htmlFor="rememberme" className="ml-2 block text-sm text-gray-900">
-                Remember me
-              </label>
+            <div className="flex justify-end items-center">
+              <a href="/my-account/lost-password/" className="text-black text-sm">
+                Lost your password?
+              </a>
             </div>
 
             <div className="form-group">
@@ -99,11 +96,6 @@ export const LoginForm = () => {
               </button>
             </div>
 
-            <div className="flex justify-end items-center">
-              <a href="/my-account/lost-password/" className="text-black text-sm">
-                Lost your password?
-              </a>
-            </div>
           </Form>
         )}
       </Formik>

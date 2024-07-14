@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { DUMMY_PRODUCTS } from "@/data/products"
 import { BiSearch } from "react-icons/bi"
-import { IProduct, ProductCard } from "../components/product-card"
+import { IProduct, ProductCard } from "../../../components/product-card"
 
 function getFeaturedProducts() {
     return DUMMY_PRODUCTS;

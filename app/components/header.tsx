@@ -10,7 +10,7 @@ import { MdOutlineClose } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { BiCategory } from "react-icons/bi";
-import { Categories } from "../containers/categories";
+import { Categories } from "../(routes)/(home)/containers/categories";
 import { Category } from "../lib/category";
 import { useCurrency } from "../context/currencyContext";
 import { FaChevronDown } from "react-icons/fa6";

@@ -3,7 +3,7 @@ import { Categories } from "./containers/categories";
 import { Featured } from "./containers/featured";
 import { Newsletter } from "./containers/newsletter";
 import { ShortFeatures } from "./containers/short-features";
-import { Banner } from "./lib/banner";
+import { Banner } from "../../lib/banner";
 
 export default async function Home() {
 
