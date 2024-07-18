@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useState, useEffect, useContext } from 'react';
-import { getCurrencyPreference, getCurrencyRates } from '../lib/curreny';
+import { getCurrencyPreference } from '../lib/curreny';
+import { getCurrencyRates } from '../utils/getCurrencyRates';
 
 const CurrencyContext = createContext({
   currency: 'USD',
@@ -13,21 +14,20 @@ export const CurrencyProvider = ({ children }: any) => {
   const [currencyRates, setCurrencyRates] = useState<undefined|object>({});
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+
+    async function fetchCurrencyRates() {
+      const res = await getCurrencyRates();
+      const rates = JSON.parse(res);
+      setCurrencyRates(rates);
+    }
+
+    fetchCurrencyRates().then(() => {
       const preferredCurrency = getCurrencyPreference();
       if (preferredCurrency) {
         setCurrency(preferredCurrency);
       }
-    }
-  }, []);
+    });
 
-  useEffect(() => {
-    async function fetchCurrencyRates() {
-      const rates = await getCurrencyRates();
-      setCurrencyRates(rates);
-    }
-
-    fetchCurrencyRates();
   }, []);
 
   return (

@@ -5,7 +5,7 @@ import { IoSearch } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
 import { FaChevronUp, FaCoins } from "react-icons/fa6";
 import { MdOutlineMenu, MdOutlineShoppingCart } from "react-icons/md";
-import { CurrencyList, DefaultCurrency, getCurrencyPreference, getCurrencyRates, setCurrencyPreference } from "../lib/curreny";
+import { CurrencyList, DefaultCurrency, getCurrencyPreference, setCurrencyPreference } from "../lib/curreny";
 import { MdOutlineClose } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -55,7 +55,6 @@ const CurrencyComponent = () => {
                             onClick={() => {
                                 setCurrencyPreference(c);
                                 setCurrency(c);
-                                getCurrencyRates();
                                 setShowCurrency(false);
                             }}
                         >
@@ -73,7 +72,6 @@ const CurrencyComponent = () => {
                             onClick={() => {
                                 setCurrencyPreference(c);
                                 setCurrency(c);
-                                getCurrencyRates();
                                 setShowCurrency(false);
                             }}
                         >
