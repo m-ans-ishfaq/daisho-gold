@@ -10,13 +10,15 @@ import { deleteCategory } from "./server";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
-export type Category = {
-  _id: string
-  title: string
-  image: string
+export type Product = {
+  _id: string;
+  title: string;
+  price: number;
+  image: string;
+  stock: number;
 }
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "image",
     header: "Image",
@@ -31,6 +33,14 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: "title",
     header: "Title",
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+  },
+  {
+    accessorKey: "stock",
+    header: "Stock",
   },
   {
     accessorKey: "Action",
@@ -70,7 +80,7 @@ export const columns: ColumnDef<Category>[] = [
                 <DialogHeader>
                     <DialogTitle>Edit Category</DialogTitle>
                 </DialogHeader>
-                <InputForm id={row.original._id} title={row.original.title} image={row.original.image} />
+                <InputForm id={row.original._id} title={row.getValue("title")} />
             </DialogContent>
           </Dialog>
           <Dialog>

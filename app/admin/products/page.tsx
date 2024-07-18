@@ -17,7 +17,7 @@ export default async function DemoPage() {
   return (
     <div className="container mx-auto py-10">
       <div className="mb-4 flex gap-4 justify-between items-center">
-        <h1 className="text-xl font-semibold">Categories</h1>
+        <h1 className="text-xl font-semibold">Products</h1>
         <div className="flex gap-2">
           <DialogAddButton />
           <Link href="/admin">

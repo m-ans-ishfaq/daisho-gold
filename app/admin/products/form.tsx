@@ -27,8 +27,6 @@ import { imageToBase64 } from "@/app/utils/imageToBase64";
 import { addCategory, editCategory } from "./server";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
-import { base64ToFile } from "@/app/utils/base64ToImage";
 
 const CategorySchema = z.object({
     title: z.string().min(2, {
@@ -46,18 +44,6 @@ type InputFormProps = {
 export function InputForm({ id='', title = '', image = '' }: InputFormProps) {
 
     const router = useRouter();
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        if (image) {
-            const file = base64ToFile(image, 'image.jpg');
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            if (inputRef.current) {
-              inputRef.current.files = dataTransfer.files;
-            }
-          }
-    }, []);
 
     const form = useForm<z.infer<typeof CategorySchema>>({
         resolver: zodResolver(CategorySchema),
@@ -117,7 +103,7 @@ export function InputForm({ id='', title = '', image = '' }: InputFormProps) {
                 <FormItem>
                     <FormLabel>Image</FormLabel>
                     <FormControl>
-                        <Input ref={inputRef} id="image" type="file" accept="image/*" onChange={handleFileChange} />
+                        <Input id="image" type="file" accept="image/*" onChange={handleFileChange} />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
