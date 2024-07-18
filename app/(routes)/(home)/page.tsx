@@ -4,11 +4,12 @@ import { Featured } from "./containers/featured";
 import { Newsletter } from "./containers/newsletter";
 import { ShortFeatures } from "./containers/short-features";
 import { Banner } from "../../lib/banner";
+import { dbConnect } from "@/lib/dbConnect";
 
 export default async function Home() {
 
   const bannerImages = await Banner.fetchBanners();
-
+  dbConnect()
   return (
     <main>
       <div className="relative w-full h-[calc(9/16*100vw-8px)]">
