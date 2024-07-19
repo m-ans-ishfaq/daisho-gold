@@ -6,6 +6,8 @@ import { dbConnect } from "@/lib/dbConnect"
 import { CategoryModel } from "@/app/models/category"
 import { DataTable } from "@/components/ui/data-table"
 
+export const dynamic = 'force-dynamic'
+
 async function getData(): Promise<Category[]> {
   await dbConnect();
   return await CategoryModel.find();

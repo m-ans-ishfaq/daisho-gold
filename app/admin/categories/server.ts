@@ -3,6 +3,17 @@
 import { CategoryModel } from "@/app/models/category";
 import { dbConnect } from "@/lib/dbConnect";
 
+export async function getCategories()
+{
+    try {
+        dbConnect();
+        const res = await CategoryModel.find();
+        return JSON.stringify(res);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 export async function addCategory(title: string, image:string)
 {
     try {

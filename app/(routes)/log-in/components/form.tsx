@@ -5,9 +5,12 @@ import * as Yup from 'yup';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa6';
 import { signIn, useSession } from 'next-auth/react';
+import { toast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const initialValues = {
     email: '',
@@ -26,12 +29,22 @@ export const LoginForm = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
+
+          try {
             const result = await signIn("credentials", {
               email: values.email,
               password: values.password
             });
             console.log(result);
-            setSubmitting(false);
+            toast({
+              title: "Login Successful !"
+            });
+          } catch(err) {
+            toast({
+              title: "Login failed !"
+            });
+          }
+            //setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
@@ -85,7 +98,7 @@ export const LoginForm = () => {
               </button>
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
               <button
                 type="button"
                 className="w-full bg-red-500 text-white p-2 rounded-md shadow hover:bg-red-600 flex gap-2 items-center justify-center"
@@ -94,7 +107,7 @@ export const LoginForm = () => {
                 <FaGoogle />
                 Sign in with Google Instead
               </button>
-            </div>
+            </div> */}
 
           </Form>
         )}

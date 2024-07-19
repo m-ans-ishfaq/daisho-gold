@@ -83,7 +83,7 @@ export const columns: ColumnDef<Category>[] = [
                 <DialogHeader>
                     <DialogTitle>Delete Category</DialogTitle>
                 </DialogHeader>
-                <DialogDescription>Are you sure you want to delete "{row.getValue("title")}" Category ? This action can't be undone</DialogDescription>
+                <DialogDescription>Are you sure you want to delete <b>{row.getValue("title")}</b> Category ? This action cant be undone</DialogDescription>
                 <DialogFooter>
                   <DialogClose asChild>
                     <Button onClick={() => handleDelete()} variant="destructive">Delete</Button>

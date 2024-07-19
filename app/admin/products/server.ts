@@ -3,34 +3,34 @@
 import { ProductModel } from "@/app/models/product";
 import { dbConnect } from "@/lib/dbConnect";
 
-export async function addCategory(title: string, image:string)
+export async function addProduct(title: string, description: string, images:string[], price: number, stock: number, category?: string)
 {
     try {
         dbConnect();
-        const newCategory = new ProductModel({ title, image,  stock });
-        const res = await newCategory.save();
+        const newProduct = new ProductModel({ title, description, images, price, stock, category });
+        const res = await newProduct.save();
         return JSON.stringify(res);
     } catch (err) {
         console.error(err);
     }
 }
 
-export async function editCategory(id: string, title: string, image:string)
+export async function editProduct(id: string, title: string, description: string, images:string[], price: number, stock: number, category?: string)
 {
     try {
         dbConnect();
-        const res = await CategoryModel.findOneAndUpdate({ _id: id }, { title, image });
+        const res = await ProductModel.findOneAndUpdate({ _id: id }, { title, description, images, price, stock, category });
         return JSON.stringify(res);
     } catch (err) {
         console.error(err);
     }
 }
 
-export async function deleteCategory(id: string)
+export async function deleteProduct(id: string)
 {
     try {
         dbConnect();
-        const res = await CategoryModel.findOneAndDelete({ _id: id });
+        const res = await ProductModel.findOneAndDelete({ _id: id });
         return JSON.stringify(res);
     } catch (err) {
         console.error(err);

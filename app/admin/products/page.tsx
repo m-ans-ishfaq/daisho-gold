@@ -1,14 +1,16 @@
 import { Button } from "@/components/ui/button"
-import { Category, columns } from "./columns"
+import { Product, columns } from "./columns"
 import Link from "next/link"
 import { DialogAddButton } from "./form"
 import { dbConnect } from "@/lib/dbConnect"
-import { CategoryModel } from "@/app/models/category"
 import { DataTable } from "@/components/ui/data-table"
+import { ProductModel } from "@/app/models/product"
 
-async function getData(): Promise<Category[]> {
+export const dynamic = 'force-dynamic'
+
+async function getData(): Promise<Product[]> {
   await dbConnect();
-  return await CategoryModel.find();
+  return await ProductModel.find();
 }
 
 export default async function DemoPage() {

@@ -57,7 +57,7 @@ export function InputForm({ id='', title = '', image = '' }: InputFormProps) {
               inputRef.current.files = dataTransfer.files;
             }
           }
-    }, []);
+    }, [image]);
 
     const form = useForm<z.infer<typeof CategorySchema>>({
         resolver: zodResolver(CategorySchema),

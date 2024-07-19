@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 import { CurrencyProvider } from "./context/currencyContext";
 import NextAuthProvider from "./context/nextAuthProvider";
 

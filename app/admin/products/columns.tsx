@@ -6,26 +6,63 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, Dia
 import { ColumnDef } from "@tanstack/react-table"
 import { InputForm } from "./form";
 import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
-import { deleteCategory } from "./server";
+import { deleteProduct } from "./server";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import { useEffect, useState } from "react";
+import { getCategories } from "../categories/server";
 
 export type Product = {
   _id: string;
   title: string;
+  description: string;
   price: number;
-  image: string;
+  images: string[];
   stock: number;
+  category?: string;
 }
 
 export const columns: ColumnDef<Product>[] = [
   {
-    accessorKey: "image",
-    header: "Image",
+    accessorKey: "images",
+    header: "Images",
     cell: ({ row }) => {
+      const responsive = {
+        superLargeDesktop: {
+          breakpoint: { max: 4000, min: 1024 },
+          items: 1
+        },
+        desktop: {
+          breakpoint: { max: 1024, min: 768 },
+          items: 1
+        },
+        tablet: {
+          breakpoint: { max: 768, min: 464 },
+          items: 1
+        },
+        mobile: {
+          breakpoint: { max: 464, min: 0 },
+          items: 1
+        }
+      };
+      const images = row.original.images;
       return (
-        <div className="w-40">
-          <img className="h-40 object-contain" src={row.getValue("image")} alt={row.getValue("title")} />
+        <div className="w-20">
+          <Carousel
+            responsive={responsive}
+            arrows={false}
+            showDots={true}
+            swipeable={false}
+            draggable={false}
+          >
+              {images.map((pic, index) => (
+                  <div key={index}>
+                      <img src={pic} alt={`Banner ${index + 1}`} className="w-full object-contain" />
+                  </div>
+              ))}
+          </Carousel>
         </div>
       )
     }
@@ -33,6 +70,29 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "title",
     header: "Title",
+  },
+  {
+    accessorKey: "description",
+    header: "Description",
+  },
+  {
+    accessorKey: "category",
+    header: "Category",
+    cell: ({ row }) => {
+
+      const [category, setCategory] = useState("Loading...");
+
+      useEffect(() => {
+        getCategories()
+        .then(res => {
+          const cats = JSON.parse(res as string);
+          const cat = cats.find((cat:any) => cat._id == row.original.category);
+          if (cat) setCategory(cat.title);
+        })
+      }, [])
+
+      return category;
+    }
   },
   {
     accessorKey: "price",
@@ -54,15 +114,15 @@ export const columns: ColumnDef<Product>[] = [
         const id = row.original._id;
         console.log(id);
         try {
-          await deleteCategory(id);
+          await deleteProduct(id);
           toast({
-            title: 'Category deleted successfully!',
+            title: 'Product deleted successfully!',
           });
           router.refresh();
         } catch(err) {
           console.error(err);
           toast({
-            title: "Category couldn't be deleted !",
+            title: "Product couldn't be deleted !",
             variant: 'destructive'
         });
         }
@@ -78,9 +138,16 @@ export const columns: ColumnDef<Product>[] = [
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Edit Category</DialogTitle>
+                    <DialogTitle>Edit Product</DialogTitle>
                 </DialogHeader>
-                <InputForm id={row.original._id} title={row.getValue("title")} />
+                <InputForm
+                  id={row.original._id}
+                  title={row.original.title}
+                  description={row.original.description}
+                  images={row.original.images}
+                  price={row.original.price}
+                  stock={row.original.stock}
+                />
             </DialogContent>
           </Dialog>
           <Dialog>
@@ -91,9 +158,9 @@ export const columns: ColumnDef<Product>[] = [
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Delete Category</DialogTitle>
+                    <DialogTitle>Delete Product</DialogTitle>
                 </DialogHeader>
-                <DialogDescription>Are you sure you want to delete "{row.getValue("title")}" Category ? This action can't be undone</DialogDescription>
+                <DialogDescription>Are you sure you want to delete <b>{row.getValue("title")}</b> product ? This action can{"'"}t be undone</DialogDescription>
                 <DialogFooter>
                   <DialogClose asChild>
                     <Button onClick={() => handleDelete()} variant="destructive">Delete</Button>
