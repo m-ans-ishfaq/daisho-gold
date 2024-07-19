@@ -10,7 +10,7 @@ export async function dbConnect(): Promise<void> {
 
   if (connection.isConnected) {
     console.log('Already connected to the database');
-    return;
+    return
   }
 
   try {
