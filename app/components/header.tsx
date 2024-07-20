@@ -14,6 +14,9 @@ import { Categories } from "../(routes)/(home)/containers/categories";
 import { Category } from "../lib/category";
 import { useCurrency } from "../context/currencyContext";
 import { FaChevronDown } from "react-icons/fa6";
+import { AiOutlineUser } from "react-icons/ai";
+import { useSession } from "next-auth/react";
+import { getFullnameById } from "../(routes)/user/server";
 
 const CartComponent = ({ notification }: { notification: boolean }) => {
     return (
@@ -152,6 +155,15 @@ const AboutUsComponent = () => (
     </Link>
 );
 
+const LoggedInComponent = ({ fullName }: { fullName: string }) => (
+    <div className="flex gap-2 divide-x-2 font-semibold">
+        <Link className="flex items-center gap-2 hover:underline hover:text-red-500" href="/my-account">
+            <AiOutlineUser />
+            <span>{fullName}</span>
+        </Link>
+    </div>
+)
+
 const NotLoggedInComponent = () => (
     <div className="flex gap-2 divide-x-2 font-semibold">
         <Link className="px-4 hover:underline hover:text-red-500" href="/log-in">Log In</Link>
@@ -162,6 +174,8 @@ const NotLoggedInComponent = () => (
 export function Header()
 {
     const [toggle, setToggle] = useState(false);
+    const [fullname, setFullname] = useState<null|string>(null);
+    const { data: session } = useSession();
 
     useEffect(() => {
         if (toggle) {
@@ -170,6 +184,20 @@ export function Header()
             document.body.classList.remove('no-scroll');
         }
     });
+
+    useEffect(() => {
+        console.log(session);
+        if (session?.user) {
+            getFullnameById(session.user.id)
+            .then(res => {
+                if (typeof(res) != "string") {
+                    setFullname("User");
+                } else {
+                    setFullname(res);
+                }
+            })
+        }
+    }, [session]);
 
     return (
         <header className="relative z-[1001] border-b h-20 flex justify-center px-4">
@@ -197,7 +225,7 @@ export function Header()
                     </button>
                     {/* Desktop Exclusive */}
                     <div className="hidden lg:flex gap-4 lg:gap-8 items-center">
-                        <NotLoggedInComponent />
+                        {session?.user && fullname ? <LoggedInComponent fullName={fullname} /> : <NotLoggedInComponent />}
                         <CategoryComponent />
                         <CartComponent notification={true} />
                          <CurrencyComponent />
@@ -216,7 +244,7 @@ export function Header()
                         <AboutUsComponent />
                     </div>
                     <div className="pb-8">
-                        <NotLoggedInComponent />
+                        {session?.user && fullname ? <LoggedInComponent fullName={fullname} /> : <NotLoggedInComponent />}
                     </div>
                 </div>
             </div>

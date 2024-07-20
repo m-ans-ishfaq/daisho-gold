@@ -5,7 +5,7 @@ import { dbConnect } from "@/lib/dbConnect";
 import { SubscribeToNewsletter } from "../../newsletter/server";
 
 export async function registerUser(
-    fullname: string,
+    fullName: string,
     email: string,
     telephone: string,
     password: string,
@@ -17,7 +17,7 @@ export async function registerUser(
 
     try {
         dbConnect();
-        const newUser = new UserModel({ fullname, email, telephone, password, homeAddress });
+        const newUser = new UserModel({ fullName, email, telephone, password, homeAddress });
         await newUser.save();
         success = true;
     } catch (err) {

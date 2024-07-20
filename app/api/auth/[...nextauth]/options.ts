@@ -19,12 +19,11 @@ export const authOptions: NextAuthOptions = {
                     return { id: "1", role: "admin" };
                 }
                 await dbConnect();
-                const user = UserModel.findOne({ email: credentials?.email, password: credentials?.password });
-                // @ts-ignore
-                console.log(user._id);
+                const user = await UserModel.findOne({ email: credentials?.email, password: credentials?.password });
+                console.log(user);
+                console.log("Id", user?._id);
                 if (!user) return null;
-                // @ts-ignore
-                else return { id: user._id, role: "customer" };
+                else return { id: user._id as string, role: "customer" };
             }
         }),
         // GoogleProvider({
