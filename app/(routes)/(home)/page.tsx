@@ -15,9 +15,9 @@ export default async function Home() {
     <main>
       <div className="relative w-full h-[calc(9/16*100vw-8px)]">
         <BannerComponent images={bannerImages} />
-        <button className="text-black tracking-widest bg-white font-bold bg-opacity-85 text-[100%] px-[4%] py-[1%] absolute z-[1001] hidden md:flex bottom-[30%] left-[8.5%]">
+        <a href="#products" className="text-black tracking-widest bg-white hover:bg-opacity-100 font-bold bg-opacity-85 text-[100%] px-[4%] py-[1%] absolute z-[1001] hidden md:flex bottom-[30%] left-[8.5%]">
             SHOP NOW
-        </button>
+        </a>
       </div>
       <Categories />
       <ShortFeatures />

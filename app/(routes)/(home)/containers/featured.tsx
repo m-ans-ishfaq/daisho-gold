@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { BiSearch } from "react-icons/bi"
 import { IProduct, ProductCard } from "../../../components/product-card"
 import { getProductsForCards } from "@/app/admin/products/server";
+import { Skeleton } from "@/components/ui/skeleton";
 
 async function getFeaturedProducts(currentIds: string[]) {
     const res = await getProductsForCards(null, currentIds);
@@ -16,6 +17,7 @@ async function getMoreFeaturedProducts(currentProducts: IProduct[]) {
 }
 
 export function Featured() {
+    const [initialLoading, setInitialLoading] = useState(true);
     const [products, setProducts] = useState<IProduct[]>([]);
     const [loading, setLoading] = useState(false);
     const [canLoad, setCanLoad] = useState(true);
@@ -24,6 +26,7 @@ export function Featured() {
         // Fetch initial products on component mount
         getFeaturedProducts([]).then(initialProducts => {
             setProducts(initialProducts);
+            setInitialLoading(false);
         });
     }, []);
 
@@ -36,7 +39,7 @@ export function Featured() {
     };
 
     return (
-        <section id="featured" className="p-4 flex justify-center">
+        <section id="products" className="p-4 flex justify-center">
             <div className="container flex flex-col gap-4">
                 <div className="mb-8 w-full flex-col gap-4 sm:grid grid-cols-[auto,auto] items-center">
                     <h2 className="font-bold text-2xl">
@@ -55,7 +58,18 @@ export function Featured() {
                     </div>
                 </div>
                 <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {products.map((productProps, i) => (
+                    {initialLoading && new Array(8).fill(0).map((x,i) => (
+                        <div key={i} className="border border-neutral-400 gap-4 flex flex-col space-y-4">
+                            <Skeleton className="h-60 w-full rounded-xl" />
+                            <div className="p-4 space-y-2">
+                                <Skeleton className="h-4 w-[75%]" />
+                                <Skeleton className="h-4 w-[40%]" />
+                                <Skeleton className="h-4 w-[60%]" />
+                                <Skeleton className="mr-auto h-4 w-[50%]" />
+                            </div>
+                        </div>
+                    ))}
+                    {!initialLoading && products.map((productProps, i) => (
                         <ProductCard key={i} productProps={productProps} />
                     ))}
                 </div>
