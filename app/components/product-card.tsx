@@ -3,6 +3,7 @@ import { RiCouponLine } from "react-icons/ri";
 import { convertPrice } from "../lib/curreny";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useCurrency } from "../context/currencyContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface IProduct
 {
@@ -16,6 +17,24 @@ export interface IProduct
     price: number,
     currency: string,
     image: string
+}
+
+export function SkeletonProductCard()
+{
+    return (
+        <div className="border border-neutral-400 gap-4 flex flex-col space-y-4">
+            <Skeleton className="h-60 w-full" />
+            <div className="p-4 pt-0 space-y-2">
+                <Skeleton className="h-4 w-[75%]" />
+                <Skeleton className="h-4 w-[40%]" />
+                <Skeleton className="h-4 w-[60%]" />
+                <Skeleton className="h-4 w-[70%]" />
+                <div className="mt-4 flex justify-end">
+                    <Skeleton className="h-4 w-[30%]" />
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export function ProductCard({ productProps }: { productProps: IProduct })

@@ -1,9 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { BiSearch } from "react-icons/bi"
-import { IProduct, ProductCard } from "../../../components/product-card"
+import { IProduct, ProductCard, SkeletonProductCard } from "../../../components/product-card"
 import { getProductsForCards } from "@/app/admin/products/server";
-import { Skeleton } from "@/components/ui/skeleton";
 
 async function getFeaturedProducts(currentIds: string[]) {
     const res = await getProductsForCards(null, currentIds);
@@ -59,15 +58,7 @@ export function Featured() {
                 </div>
                 <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {initialLoading && new Array(8).fill(0).map((x,i) => (
-                        <div key={i} className="border border-neutral-400 gap-4 flex flex-col space-y-4">
-                            <Skeleton className="h-60 w-full rounded-xl" />
-                            <div className="p-4 space-y-2">
-                                <Skeleton className="h-4 w-[75%]" />
-                                <Skeleton className="h-4 w-[40%]" />
-                                <Skeleton className="h-4 w-[60%]" />
-                                <Skeleton className="mr-auto h-4 w-[50%]" />
-                            </div>
-                        </div>
+                        <SkeletonProductCard key={i} />
                     ))}
                     {!initialLoading && products.map((productProps, i) => (
                         <ProductCard key={i} productProps={productProps} />
