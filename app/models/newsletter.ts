@@ -5,7 +5,11 @@ export interface INewsletter extends Document {
 }
 
 const newsletterSchema = new mongoose.Schema({
-    email: String!
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    }
 });
 
 export const NewsLetterModel =  mongoose.models.newsletter as mongoose.Model<INewsletter> || mongoose.model('newsletter', newsletterSchema);

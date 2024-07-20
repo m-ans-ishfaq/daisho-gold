@@ -1,3 +1,5 @@
+import { UserModel } from "@/app/models/user";
+import { dbConnect } from "@/lib/dbConnect";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google";
@@ -16,7 +18,13 @@ export const authOptions: NextAuthOptions = {
                 if (credentials?.email === process.env.ADMIN_EMAIL && credentials?.password === process.env.ADMIN_PASSWORD) {
                     return { id: "1", role: "admin" };
                 }
-                return null;
+                await dbConnect();
+                const user = UserModel.findOne({ email: credentials?.email, password: credentials?.password });
+                // @ts-ignore
+                console.log(user._id);
+                if (!user) return null;
+                // @ts-ignore
+                else return { id: user._id, role: "customer" };
             }
         }),
         // GoogleProvider({
