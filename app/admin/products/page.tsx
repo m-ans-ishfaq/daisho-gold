@@ -8,9 +8,9 @@ import { ProductModel } from "@/app/models/product"
 
 export const dynamic = 'force-dynamic'
 
-async function getData(): Promise<Product[]> {
+async function getData(): Promise<any[]> {
   await dbConnect();
-  return await ProductModel.find();
+  return ProductModel.find();
 }
 
 export default async function DemoPage() {

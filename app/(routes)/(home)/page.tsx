@@ -5,6 +5,7 @@ import { Newsletter } from "./containers/newsletter";
 import { ShortFeatures } from "./containers/short-features";
 import { Banner } from "../../lib/banner";
 import { dbConnect } from "@/lib/dbConnect";
+import { CategoriesByParts } from "./containers/parts";
 
 export default async function Home() {
 
@@ -20,6 +21,7 @@ export default async function Home() {
       </div>
       <Categories />
       <ShortFeatures />
+      <CategoriesByParts />
       <Featured />
       <Newsletter />
     </main>

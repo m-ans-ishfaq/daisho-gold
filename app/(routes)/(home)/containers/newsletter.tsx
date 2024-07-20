@@ -15,10 +15,10 @@ export function Newsletter()
                     <p>
                         KEEP UP TO DATE WITH LATEST PRODUCTS
                     </p>
-                    <div className="w-full mt-2 flex justify-center">
+                    <div className="w-full max-w-xl mt-2 flex justify-center">
                         <input
                             type="email"
-                            className="outline-none font-semibold container max-w-xl bg-white text-black px-4 py-2 rounded-l-sm"
+                            className="outline-none font-semibold container bg-white text-black px-4 py-2 rounded-l-sm"
                             placeholder="Your Email Address"
                         />
                         <button className="bg-red-500 text-white hover:bg-yellow-500 px-4 py-2 rounded-r-sm">

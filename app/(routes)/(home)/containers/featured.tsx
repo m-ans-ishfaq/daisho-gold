@@ -1,40 +1,44 @@
 "use client";
 import { useState, useEffect } from "react";
-import { DUMMY_PRODUCTS } from "@/data/products"
 import { BiSearch } from "react-icons/bi"
 import { IProduct, ProductCard } from "../../../components/product-card"
+import { getProductsForCards } from "@/app/admin/products/server";
 
-function getFeaturedProducts() {
-    return DUMMY_PRODUCTS;
+async function getFeaturedProducts(currentIds: string[]) {
+    const res = await getProductsForCards(null, currentIds);
+    return JSON.parse(res) as IProduct[];
 }
 
-function getMoreFeaturedProducts(currentProducts: IProduct[]) {
-    return [...currentProducts, ...DUMMY_PRODUCTS];
+async function getMoreFeaturedProducts(currentProducts: IProduct[]) {
+    const productIds = currentProducts.map(p => p._id);
+    const moreProducts = await getFeaturedProducts(productIds)
+    return [...currentProducts, ...moreProducts];
 }
 
 export function Featured() {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [loading, setLoading] = useState(false);
+    const [canLoad, setCanLoad] = useState(true);
 
     useEffect(() => {
         // Fetch initial products on component mount
-        const initialProducts = getFeaturedProducts();
-        setProducts(initialProducts);
+        getFeaturedProducts([]).then(initialProducts => {
+            setProducts(initialProducts);
+        });
     }, []);
 
-    const handleLoadMore = () => {
+    const handleLoadMore = async () => {
         setLoading(true);
-        setTimeout(() => {
-            const moreProducts = getMoreFeaturedProducts(products);
-            setProducts(moreProducts);
-            setLoading(false);
-        }, 1000); // Simulate network delay
+        const moreProducts = await getMoreFeaturedProducts(products);
+        if (moreProducts.length < products.length + 8) setCanLoad(false);
+        setProducts(moreProducts);
+        setLoading(false);
     };
 
     return (
         <section id="featured" className="p-4 flex justify-center">
             <div className="container flex flex-col gap-4">
-                <div className="w-full flex-wrap gap-4 sm:grid grid-cols-[auto,auto] items-center">
+                <div className="mb-8 w-full flex-col gap-4 sm:grid grid-cols-[auto,auto] items-center">
                     <h2 className="font-bold text-2xl">
                         Featured Products
                     </h2>
@@ -50,12 +54,12 @@ export function Featured() {
                         </button>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {products.map((productProps, i) => (
                         <ProductCard key={i} productProps={productProps} />
                     ))}
                 </div>
-                <div className="flex justify-center items-center p-4">
+                {canLoad && <div className="flex justify-center items-center p-4">
                     <button 
                         className="bg-red-500 text-white p-4 px-8 font-semibold rounded-md hover:bg-yellow-500" 
                         onClick={handleLoadMore}
@@ -67,7 +71,7 @@ export function Featured() {
                             "Load More"
                         )}
                     </button>
-                </div>
+                </div>}
             </div>
         </section>
     )

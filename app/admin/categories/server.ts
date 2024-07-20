@@ -3,11 +3,11 @@
 import { CategoryModel } from "@/app/models/category";
 import { dbConnect } from "@/lib/dbConnect";
 
-export async function getCategories()
+export async function getAllCategoriesLabels()
 {
     try {
         dbConnect();
-        const res = await CategoryModel.find();
+        const res = await CategoryModel.find({}, { image: 0 });
         return JSON.stringify(res);
     } catch (err) {
         console.error(err);

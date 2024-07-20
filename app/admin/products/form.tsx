@@ -36,8 +36,9 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { base64ToFile } from "@/app/utils/base64ToImage";
-import { getCategories } from "../categories/server";
+import { getAllCategoriesLabels } from "../categories/server";
 import { Category } from "../categories/columns";
+import { Textarea } from "@/components/ui/textarea";
 
 const productSchema = z.object({
     title: z.string().min(2, {
@@ -73,24 +74,10 @@ type InputFormProps = {
 export function InputForm({ id='', title = '', description = '', price = 0, images = [], stock = 0, category = '' }: InputFormProps) {
 
     const router = useRouter();
-    const inputRef = useRef<HTMLInputElement>(null);
     const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
-        if (images) {
-            const dataTransfer = new DataTransfer();
-            for (const image of images) {
-                const file = base64ToFile(image, 'image.jpg');
-                dataTransfer.items.add(file);
-            }
-            if (inputRef.current) {
-              inputRef.current.files = dataTransfer.files;
-            }
-          }
-    }, []);
-
-    useEffect(() => {
-        getCategories()
+        getAllCategoriesLabels()
         .then(res => {
             const cats = JSON.parse(res as string);
             setCategories(cats);
@@ -105,6 +92,7 @@ export function InputForm({ id='', title = '', description = '', price = 0, imag
             price,
             images,
             stock,
+            category
         },
     });
 
@@ -131,17 +119,6 @@ export function InputForm({ id='', title = '', description = '', price = 0, imag
         }
     }
 
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        if (files) {
-            const base64Images = await Promise.all(
-                Array.from(files).map(file => imageToBase64(file) as Promise<string>)
-            );
-            //@ts-ignore
-            form.setValue('images', base64Images);
-        }
-    };
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -165,7 +142,7 @@ export function InputForm({ id='', title = '', description = '', price = 0, imag
                         <FormItem>
                             <FormLabel>Description</FormLabel>
                             <FormControl>
-                                <Input placeholder="Product description" {...field} />
+                                <Textarea placeholder="Product description" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -184,7 +161,7 @@ export function InputForm({ id='', title = '', description = '', price = 0, imag
                                 </SelectTrigger>
                                 <SelectContent>
                                     {categories && categories.map(({_id, title}, i) => (
-                                        <SelectItem key={i} value={_id}>{title}</SelectItem>
+                                        <SelectItem key={i} value={_id} defaultChecked={category == _id}>{title}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -219,13 +196,28 @@ export function InputForm({ id='', title = '', description = '', price = 0, imag
                         </FormItem>
                     )}
                 />
-                <FormItem>
-                    <FormLabel>Images</FormLabel>
-                    <FormControl>
-                        <Input ref={inputRef} id="images" type="file" accept="image/*" multiple onChange={handleFileChange} />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
+                <FormField
+                    control={form.control}
+                    name="images"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Images</FormLabel>
+                            <FormControl>
+                                <Textarea
+                                    placeholder="Product Images seperated by lines"
+                                    {...field}
+                                    value={field.value.join("\n")}
+                                    onChange={e => {
+                                        const { value } = e.target;
+                                        field.onChange(value.split('\n'));
+                                        console.log(field.value);
+                                    }}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
                 {/* <DialogClose asChild> */}
                     <Button type="submit">Save</Button>
                 {/* </DialogClose> */}

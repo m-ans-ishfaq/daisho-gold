@@ -1,4 +1,3 @@
-import Image, { StaticImageData } from "next/image";
 import { FaStar } from "react-icons/fa6";
 import { RiCouponLine } from "react-icons/ri";
 import { convertPrice } from "../lib/curreny";
@@ -7,6 +6,7 @@ import { useCurrency } from "../context/currencyContext";
 
 export interface IProduct
 {
+    _id: string,
     outOfStock: boolean,
     title: string,
     isCouponAvailable: boolean,
@@ -15,7 +15,7 @@ export interface IProduct
     rating: number,
     price: number,
     currency: string,
-    image: StaticImageData
+    image: string
 }
 
 export function ProductCard({ productProps }: { productProps: IProduct })
@@ -37,7 +37,7 @@ export function ProductCard({ productProps }: { productProps: IProduct })
     return (
         <article className="relative p-4 border border-neutral-200 cursor-pointer hover:shadow-lg hover:border-neutral-700 flex flex-col gap-4">
             {outOfStock && <span className="bg-red-500 text-white py-1 px-4 text-sm font-medium absolute rounded-full top-4 right-4">OUT OF STOCK</span>}
-            <Image src={image} alt={title + " image"} className="w-full object-contain h-60" />
+            <img src={image} alt={title + " image"} className="w-full object-contain h-60" />
             <div className="flex flex-col h-full justify-between gap-4">
                 <h4 className="text-lg font-bold">{title}</h4>
                 <div className="flex flex-col gap-4">

@@ -46,18 +46,6 @@ type InputFormProps = {
 export function InputForm({ id='', title = '', image = '' }: InputFormProps) {
 
     const router = useRouter();
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        if (image) {
-            const file = base64ToFile(image, 'image.jpg');
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            if (inputRef.current) {
-              inputRef.current.files = dataTransfer.files;
-            }
-          }
-    }, [image]);
 
     const form = useForm<z.infer<typeof CategorySchema>>({
         resolver: zodResolver(CategorySchema),
@@ -89,15 +77,6 @@ export function InputForm({ id='', title = '', image = '' }: InputFormProps) {
         }
     }
 
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const base64Image = await imageToBase64(file) as string;
-            form.setValue('image', base64Image);
-        }
-    };
-
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -114,13 +93,19 @@ export function InputForm({ id='', title = '', image = '' }: InputFormProps) {
                         </FormItem>
                     )}
                 />
-                <FormItem>
-                    <FormLabel>Image</FormLabel>
-                    <FormControl>
-                        <Input ref={inputRef} id="image" type="file" accept="image/*" onChange={handleFileChange} />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
+                <FormField
+                    control={form.control}
+                    name="image"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Image URL</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Category image URL" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
                 <DialogClose asChild>
                     <Button type="submit">Save</Button>
                 </DialogClose>

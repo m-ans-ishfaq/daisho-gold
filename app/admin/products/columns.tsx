@@ -12,7 +12,8 @@ import { useRouter } from "next/navigation";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useEffect, useState } from "react";
-import { getCategories } from "../categories/server";
+import { getAllCategoriesLabels } from "../categories/server";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 export type Product = {
   _id: string;
@@ -47,15 +48,27 @@ export const columns: ColumnDef<Product>[] = [
           items: 1
         }
       };
+
       const images = row.original.images;
+
       return (
         <div className="w-20">
           <Carousel
             responsive={responsive}
-            arrows={false}
-            showDots={true}
-            swipeable={false}
-            draggable={false}
+            arrows={true}
+            customLeftArrow={
+              <FaChevronLeft
+                size={12}
+                className="absolute top-1/2 left-0 max-w-4 cursor-pointer text-primary-400"
+              />
+            }
+            customRightArrow={
+              <FaChevronRight
+                size={12}
+                className="absolute top-1/2 right-0 max-w-4 cursor-pointer text-primary-400"
+              />
+            }
+            swipeable draggable infinite
           >
               {images.map((pic, index) => (
                   <div key={index}>
@@ -83,7 +96,7 @@ export const columns: ColumnDef<Product>[] = [
       const [category, setCategory] = useState("Loading...");
 
       useEffect(() => {
-        getCategories()
+        getAllCategoriesLabels()
         .then(res => {
           const cats = JSON.parse(res as string);
           const cat = cats.find((cat:any) => cat._id == row.original.category);
@@ -97,6 +110,7 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "price",
     header: "Price",
+    cell: ({ row }) => "$" + row.original.price
   },
   {
     accessorKey: "stock",
@@ -147,6 +161,7 @@ export const columns: ColumnDef<Product>[] = [
                   images={row.original.images}
                   price={row.original.price}
                   stock={row.original.stock}
+                  category={row.original.category}
                 />
             </DialogContent>
           </Dialog>
