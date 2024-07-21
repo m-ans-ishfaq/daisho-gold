@@ -1,0 +1,12 @@
+.image-gallery-custom-left-nav,
+.image-gallery-custom-right-nav {
+  @apply absolute top-1/2 transform -translate-y-1/2 bg-transparent border-none text-black text-2xl p-2 z-10;
+}
+
+.image-gallery-custom-left-nav {
+  @apply left-0;
+}
+
+.image-gallery-custom-right-nav {
+  @apply right-0;
+}
