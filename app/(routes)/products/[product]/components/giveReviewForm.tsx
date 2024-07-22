@@ -81,8 +81,8 @@ export const ReviewForm = ({ id, productId, rating, review }: { id?: string, pro
   };
 
   return (
-    <div className="max-w-lg w-full mx-auto p-4 md:p-8 bg-white rounded shadow-md">
-      <h2 className="text-2xl font-bold mb-4">{submitted ? "Your Review" : "Leave a Review"}</h2>
+    <div className="w-full p-4 md:p-8 bg-white rounded shadow-md">
+      <h2 className="text-xl font-bold mb-4">{submitted ? "Your Review" : "Leave a Review"}</h2>
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <FormField

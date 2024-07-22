@@ -1,5 +1,8 @@
 "use client";
 
+import { addToCart } from '@/app/(routes)/user/server';
+import { toast } from '@/components/ui/use-toast';
+import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 
 interface QuantityInputProps {
@@ -8,16 +11,18 @@ interface QuantityInputProps {
 }
 
 export const QuantityInput: React.FC<QuantityInputProps> = ({ productId, stock }) => {
-  const [quantity, setQuantity] = useState(stock > 0 ? 1 : 0);
+  const [pStock, setPStock] = useState(stock);
+  const [quantity, setQuantity] = useState(pStock > 0 ? 1 : 0);
+  const { data: session } = useSession();
 
-  const increment = () => setQuantity(prevQuantity => (prevQuantity < stock ? prevQuantity + 1 : prevQuantity));
+  const increment = () => setQuantity(prevQuantity => (prevQuantity < pStock ? prevQuantity + 1 : prevQuantity));
   const decrement = () => setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : prevQuantity));
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const numValue = parseInt(value, 10);
 
-    if (!isNaN(numValue) && numValue > 0 && numValue <= stock) {
+    if (!isNaN(numValue) && numValue > 0 && numValue <= pStock) {
       setQuantity(numValue);
     }
   };
@@ -25,7 +30,18 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({ productId, stock }
 
   const onAddToCart = async () => {
     console.log(quantity, productId);
-    // Add your add-to-cart logic here
+    if (session?.user && session.user.role == "customer") {
+      try {
+        const res = await addToCart(session.user.id, productId, quantity);
+        if (!res) throw new Error();
+        toast({ title: 'Item Has been added to cart successfully !' });
+        setPStock(stock - quantity);
+      } catch(err) {
+        toast({ title: "Couldn't add to cart", variant: 'destructive' });
+      }
+    } else {
+      toast({ title: "You need to login first" });
+    }
   };
 
   return (
@@ -34,8 +50,8 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({ productId, stock }
         <button
           type="button"
           onClick={decrement}
-          disabled={quantity <= 1 || stock === 0}
-          className={`transition-all duration-300 ${quantity <= 1 || stock === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary-yellow hover:text-white'} w-8 h-12 flex items-center justify-center border-r border-gray-300 text-gray-700`}
+          disabled={quantity <= 1 || pStock === 0}
+          className={`transition-all duration-300 ${quantity <= 1 || pStock === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary-yellow hover:text-white'} w-8 h-12 flex items-center justify-center border-r border-gray-300 text-gray-700`}
         >
           -
         </button>
@@ -48,8 +64,8 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({ productId, stock }
         <button
           type="button"
           onClick={increment}
-          disabled={quantity >= stock || stock === 0}
-          className={`transition-all duration-300 ${quantity >= stock || stock === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary-yellow hover:text-white'} w-8 h-12 flex items-center justify-center border-l border-gray-300 text-gray-700`}
+          disabled={quantity >= pStock || pStock === 0}
+          className={`transition-all duration-300 ${quantity >= pStock || pStock === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary-yellow hover:text-white'} w-8 h-12 flex items-center justify-center border-l border-gray-300 text-gray-700`}
         >
           +
         </button>
@@ -57,7 +73,7 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({ productId, stock }
       <button
         type="button"
         onClick={onAddToCart}
-        disabled={stock === 0}
+        disabled={pStock === 0}
         className={`transition-all duration-300 hover:bg-primary-red bg-yellow-500 text-white h-12 py-2 px-12 rounded ${stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         ADD TO CART
