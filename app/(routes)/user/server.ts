@@ -15,3 +15,16 @@ export async function getFullnameById(id: string)
         console.error(err);
     }
 }
+
+export async function getUserById(id: string)
+{
+    await dbConnect();
+    // Case of admin
+    if (id === "1") return null;
+    try {
+        const user = await UserModel.findById(id);
+        return JSON.stringify(user);
+    } catch(err) {
+        console.error(err);
+    }
+}

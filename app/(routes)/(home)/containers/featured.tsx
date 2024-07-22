@@ -39,7 +39,7 @@ export function Featured() {
 
     return (
         <section id="products" className="p-4 flex justify-center">
-            <div className="container flex flex-col gap-4">
+            <div className="container px-0 flex flex-col gap-4">
                 <div className="mb-8 w-full flex-col gap-4 sm:grid grid-cols-[auto,auto] items-center">
                     <h2 className="font-bold text-2xl">
                         Featured Products
@@ -56,7 +56,7 @@ export function Featured() {
                         </button>
                     </div>
                 </div>
-                <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="mb-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {initialLoading && new Array(8).fill(0).map((x,i) => (
                         <SkeletonProductCard key={i} />
                     ))}

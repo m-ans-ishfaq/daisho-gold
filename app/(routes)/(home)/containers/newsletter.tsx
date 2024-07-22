@@ -28,7 +28,7 @@ export function Newsletter()
 
     return (
         <section id="newsletter" className="relative p-4 py-40 flex justify-center">
-            <form onSubmit={(e) => submit(e)} className="container flex justify-center items-center">
+            <form onSubmit={(e) => submit(e)} className="container px-0 flex justify-center items-center">
                 <div className="absolute z-[1] w-full h-full top-0 left-0 bg-black" />
                 <Image src={NewsletterBg} alt="" className="absolute z-[2] opacity-30 w-full h-full top-0 left-0 object-cover object-center" />
                 <div className="w-full text-center relative z-[3] flex flex-col justify-center items-center gap-2 text-white">
@@ -42,12 +42,12 @@ export function Newsletter()
                         <input
                             required
                             type="email"
-                            className="outline-none container bg-white text-black px-4 py-2 rounded-l-sm"
+                            className="ml-4 outline-none container bg-white text-black px-4 py-2 rounded-l-sm"
                             placeholder="Your Email Address"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                         />
-                        <button type="submit" className="bg-red-500 text-white hover:bg-yellow-500 px-4 py-2 rounded-r-sm">
+                        <button type="submit" className="mr-4 bg-red-500 text-white hover:bg-yellow-500 px-4 py-2 rounded-r-sm">
                             Submit
                         </button>
                     </div>

@@ -63,6 +63,19 @@
     * {
       @apply border-border;
     }
+    html {
+      font-size: 62.5%;
+    }
+    @media screen and (min-width: 480px) {
+      html {
+        font-size: 80%;
+      }
+    }
+    @media screen and (min-width: 640px) {
+      html {
+        font-size: 100%;
+      }
+    }
     body {
       @apply bg-background text-foreground;
     }

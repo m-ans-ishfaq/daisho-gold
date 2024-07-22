@@ -206,7 +206,7 @@ export function Header()
                 <div className="flex gap-4 items-center">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 cursor-pointer">
-                        <Image src={DaishoGoldLogo} alt="Daisho Gold Logo" className="w-[44px] object-contain" />
+                        <Image src={DaishoGoldLogo} alt="Daisho Gold Logo" className="w-[2.75rem] object-contain" />
                         <span className="font-bold text-xl">
                             DAISHO GOLD
                         </span>
