@@ -35,8 +35,8 @@ export function OtherProducts({ products }: { products: IProduct[] })
             dotListClass="absolute bottom-40"
         >
             {products.map((p, i) => (
-              <div className="mx-2 h-full">
-                <ProductCard key={i} {...{productProps: p}} />
+              <div key={i} className="mx-2 h-full">
+                <ProductCard {...{productProps: p}} />
               </div>
             ))}
         </Carousel>
