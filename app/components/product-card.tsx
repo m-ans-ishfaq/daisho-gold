@@ -24,7 +24,7 @@ export interface IProduct
 export function SkeletonProductCard()
 {
     return (
-        <div className="border border-neutral-400 gap-4 flex flex-col space-y-4">
+        <div className="border gap-4 flex flex-col space-y-4">
             <Skeleton className="h-60 w-full" />
             <div className="p-4 pt-0 space-y-2">
                 <Skeleton className="h-4 w-[75%]" />

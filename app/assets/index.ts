@@ -8,6 +8,7 @@ import CG125 from "@/public/bikes/cg-125.png";
 import GS150 from "@/public/bikes/gs-150.png";
 import HondaDelux from "@/public/bikes/honda-delux.png";
 import BikeShop from "@/public/images/bike-shop.webp"
+import GoldWalletImg from "@/public/images/gold-wallet.png";
 const Part1 = require("@/public/parts/part1.JPG");
 const Part2 = require("@/public/parts/part2.JPG");
 
@@ -24,5 +25,6 @@ export {
     GS150,
     HondaDelux,
     AuthBg,
-    BikeShop
+    BikeShop,
+    GoldWalletImg
 }
