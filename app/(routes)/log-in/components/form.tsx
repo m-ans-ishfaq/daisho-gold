@@ -28,23 +28,26 @@ export const LoginForm = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={async (values, { setSubmitting }) => {
-
-          try {
-            const result = await signIn("credentials", {
+        onSubmit={async (values) => {
+          signIn(
+            "credentials",
+            {
               email: values.email,
-              password: values.password
-            });
-            console.log(result);
-            toast({
-              title: "Login Successful !"
-            });
-          } catch(err) {
-            toast({
-              title: "Login failed !"
-            });
-          }
-            //setSubmitting(false);
+              password: values.password,
+              redirect: false
+            }
+          )
+          .then(res => {
+            if (res?.error) { 
+              toast({ title: "Login failed!", variant: 'destructive' });
+            } else if (res?.ok) {
+              toast({ title: "Login Successful!!" });
+              router.push('/');
+            }
+          })
+          .catch(err => {
+            toast({ title: "Error on sign in!", variant: 'destructive' });
+          });
         }}
       >
         {({ isSubmitting }) => (

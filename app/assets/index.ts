@@ -9,6 +9,8 @@ import GS150 from "@/public/bikes/gs-150.png";
 import HondaDelux from "@/public/bikes/honda-delux.png";
 const Part1 = require("@/public/parts/part1.JPG");
 const Part2 = require("@/public/parts/part2.JPG");
+const BikeShop = require("@/public/images/bike-shop.jpg");
+
 
 export {
     DaishoGoldLogo,
@@ -21,5 +23,6 @@ export {
     CG125,
     GS150,
     HondaDelux,
-    AuthBg
+    AuthBg,
+    BikeShop
 }

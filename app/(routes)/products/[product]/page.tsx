@@ -16,6 +16,7 @@ import { ReviewForm } from "./components/giveReviewForm";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { UserModel } from "@/app/models/user";
+import { WhatsappIcon } from "@/app/components/whatsapp";
 
 export default async function Page({ params }: { params: { product: string } }) {
     const productId = getProductIdFromURL(params.product);
@@ -127,6 +128,7 @@ export default async function Page({ params }: { params: { product: string } }) 
                     </div>
                 )}
             </div>
+            <WhatsappIcon />
         </main>
     );
 }

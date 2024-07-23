@@ -2,7 +2,6 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import { CurrencyProvider } from "./context/currencyContext";
 import NextAuthProvider from "./context/nextAuthProvider";
-import { WhatsappIcon } from "./components/whatsapp";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +17,6 @@ export default function RootLayout({
             <NextAuthProvider>
                 {children}
             </NextAuthProvider>
-            <WhatsappIcon />
         </body>
       </html>
     </CurrencyProvider>

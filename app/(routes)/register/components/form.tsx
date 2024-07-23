@@ -19,6 +19,7 @@ import { toast } from "@/components/ui/use-toast"
 import { Required } from "@/components/ui/required"
 import { registerUser } from "./server"
 import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 const FormSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
@@ -45,7 +46,8 @@ export const RegisterForm = () => {
       confirmPassword: "",
       subscribeToNewsletter: false,
     },
-  })
+  });
+  const router = useRouter();
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const { fullName, confirmPassword, email, telephone, homeAddress, subscribeToNewsletter } = data;
@@ -55,7 +57,8 @@ export const RegisterForm = () => {
         toast({
           title: "Thanks for registering"
         });
-        signIn('credentials', { email, password: confirmPassword });
+        signIn('credentials', { email, password: confirmPassword, redirect: false });
+        router.push('/');
       } else {
         toast({
           title: "Registration failed! User already exists",
