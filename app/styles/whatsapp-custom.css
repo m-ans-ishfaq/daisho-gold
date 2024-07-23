@@ -1,0 +1,8 @@
+.floating-whatsapp button[type="submit"] {
+    position: relative;
+    left: .75rem;
+}
+
+.floating-whatsapp input {
+    padding: .25rem 1rem !important;
+}

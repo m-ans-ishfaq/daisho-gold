@@ -212,7 +212,7 @@ export function Header()
                         </span>
                     </Link>
                     {/* Desktop Exclusive */}
-                    <div className="hidden lg:flex gap-4 lg:gap-8 items-center">
+                    <div className="hidden lg:flex lg:ml-4 gap-4 lg:gap-8 items-center">
                         {session?.user && fullname ? <LoggedInComponent fullName={fullname} /> : <NotLoggedInComponent />}
                         <CategoryComponent />
                         <CartComponent notification={true} />

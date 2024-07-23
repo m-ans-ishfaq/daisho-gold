@@ -47,23 +47,15 @@ const footerLinks = [
 const socialLinks = [
     {
         Icon: FaInstagram,
-        href: "#"
+        href: "https://www.instagram.com/daishogoldpk/"
     },
     {
         Icon: FaFacebook,
-        href: "#"
-    },
-    {
-        Icon: FaTwitter,
-        href: "#"
-    },
-    {
-        Icon: FaYoutube,
-        href: "#"
+        href: "https://web.facebook.com/people/Daisho-Gold/61557842257625/"
     },
     {
         Icon: FaWhatsapp,
-        href: "#"
+        href: "+81 80-3327-9070"
     }
 ];
 
