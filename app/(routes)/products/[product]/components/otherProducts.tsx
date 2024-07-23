@@ -1,7 +1,8 @@
 "use client";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { IProduct, ProductCard } from "@/app/components/product-card";
+import { ProductCard } from "@/app/components/product-card";
+import { IProductCard } from "@/app/models/product";
 
 const responsive = {
     superLargeDesktop: {
@@ -22,7 +23,7 @@ const responsive = {
     }
 };
 
-export function OtherProducts({ products }: { products: IProduct[] })
+export function OtherProducts({ products }: { products: IProductCard[] })
 {
     return (
         <Carousel

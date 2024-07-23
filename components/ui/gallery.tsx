@@ -13,7 +13,8 @@ export class ImagesGallery extends React.Component<ImagesGalleryProps> {
     const { images } = this.props;
     return (
       <ImageGallery 
-        items={images.map((i: string) => ({ original: i, thumbnail: i }))} 
+        items={images.map((i: string) => ({ original: i, thumbnail: i }))}
+        onErrorImageURL="/logo.png"
         showPlayButton={false}
         renderLeftNav={(onClick, disabled) => (
           <button

@@ -27,7 +27,7 @@ const shortFeatures = [
         label: "REASONABLE PRICES",
         bgColor: "bg-green-500"
     },
-]
+];
 
 export function ShortFeatures() {
     return (

@@ -3,6 +3,7 @@
 import { addToCart } from '@/app/(routes)/user/server';
 import { toast } from '@/components/ui/use-toast';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 interface QuantityInputProps {
@@ -14,6 +15,7 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({ productId, stock }
   const [pStock, setPStock] = useState(stock);
   const [quantity, setQuantity] = useState(pStock > 0 ? 1 : 0);
   const { data: session } = useSession();
+  const router = useRouter();
 
   const increment = () => setQuantity(prevQuantity => (prevQuantity < pStock ? prevQuantity + 1 : prevQuantity));
   const decrement = () => setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : prevQuantity));
@@ -41,6 +43,7 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({ productId, stock }
       }
     } else {
       toast({ title: "You need to login first" });
+      router.push('/log-in');
     }
   };
 

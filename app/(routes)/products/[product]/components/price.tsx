@@ -11,7 +11,7 @@ export const PriceTag = ({ priceInUsd }: { priceInUsd: number }) => {
     const { currency, currencyRates } = useCurrency();
 
     useEffect(() => {
-        convertPrice(priceInUsd, "USD", currency, currencyRates)
+        convertPrice(priceInUsd, "PKR", currency, currencyRates)
         .then(am => {
             setPriceCurrency(am.currency);
             setAmount(am.price);

@@ -1,5 +1,4 @@
-import { CategoryModel } from "@/app/models/category";
-import { ProductModel } from "@/app/models/product";
+import { IProductCard, ProductModel } from "@/app/models/product";
 import { ReviewModel } from "@/app/models/review";
 import { getProductIdFromURL } from "@/app/utils/getProduct";
 import { ImagesGallery } from "@/components/ui/gallery";
@@ -10,7 +9,6 @@ import { PriceTag } from "./components/price";
 import { FaStar } from "react-icons/fa6";
 import { QuantityInput } from "./components/quantity";
 import { getProductsForCards } from "@/app/admin/products/server";
-import { IProduct, ProductCard } from "@/app/components/product-card";
 import { OtherProducts } from "./components/otherProducts";
 import { ReviewForm } from "./components/giveReviewForm";
 import { getServerSession } from "next-auth";
@@ -37,7 +35,7 @@ export default async function Page({ params }: { params: { product: string } }) 
 
     const { title, stock, images, description, price, _id } = product;
     const { category: productCategory } = category || { category: { title: 'Misc' } };
-    const otherProducts = JSON.parse(otherProductsRes as string) as IProduct[];
+    const otherProducts = JSON.parse(otherProductsRes as string) as IProductCard[];
     
     const rating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length || 0;
     const stars = new Array(5).fill(0).map((_, i) => i < rating);
@@ -58,7 +56,7 @@ export default async function Page({ params }: { params: { product: string } }) 
             <div className="container px-0 flex flex-col gap-4">
                 <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
                     <div className="">
-                        <ImagesGallery images={images} />
+                        <ImagesGallery images={images.map(i => '/products/' + i)} />
                     </div>
                     <div className="md:col-span-2 space-y-4">
                         <h4 className="text-neutral-400">

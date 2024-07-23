@@ -1,25 +1,13 @@
 "use client";
 
-import { FaStar } from "react-icons/fa6";
 import { RiCouponLine } from "react-icons/ri";
 import { convertPrice } from "../lib/curreny";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCurrency } from "../context/currencyContext";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
-
-export interface IProduct
-{
-    _id: string,
-    outOfStock: boolean,
-    title: string,
-    isCouponAvailable: boolean,
-    price: number,
-    currency: string,
-    image: string,
-    bike?: string,
-    category?: string
-}
+import { IProductCard } from "../models/product";
+import { capitalize } from "../lib/format";
 
 export function SkeletonProductCard()
 {
@@ -39,7 +27,7 @@ export function SkeletonProductCard()
     )
 }
 
-export function ProductCard({ productProps }: { productProps: IProduct })
+export function ProductCard({ productProps }: { productProps: IProductCard })
 {
     const { currency, currencyRates } = useCurrency();
     const { _id, outOfStock, title, bike, category, isCouponAvailable, price, currency: productCurrency, image } = productProps;
@@ -50,21 +38,29 @@ export function ProductCard({ productProps }: { productProps: IProduct })
         .then(am => {
             setAmount({ currency: am.currency, price: am.price });
         })
-    }, [currency]);
+    }, [currency, currencyRates, price, productCurrency]);
     
     return (
         <Link href={`/products/${encodeURIComponent(title)}-${_id}`} className="h-full">
             <article className="group h-full relative p-4 border border-neutral-200 cursor-pointer hover:shadow-lg hover:border-neutral-700 flex flex-col gap-4">
                 {outOfStock && <span className="bg-red-500 text-white py-1 px-4 text-sm font-medium absolute rounded-full top-4 right-4">OUT OF STOCK</span>}
-                <div className="w-full max-h-60 h-full">
-                    <img src={image} alt={title + " image"} className="w-full object-contain h-full" />
+                <div className="w-full h-60">
+                    <img
+                        src={image}
+                        alt={title + " image"} 
+                        className="w-full object-contain h-full"
+                        onError={(e:any) => {
+                            e.target.onerror = null;
+                            e.target.src = "/logo.png";
+                        }}
+                    />
                 </div>
-                <div className="flex flex-col h-full justify-between gap-4">
-                    <h4 className="text-lg font-bold">{title}</h4>
+                <div className="flex flex-col justify-between h-full gap-4">
+                    <h4 className="text-lg font-bold capitalize">{title}</h4>
                     <div className="flex flex-col">
                         <div className="flex gap-2 flex-wrap items-end justify-between">
                             <span className="text-primary-yellow font-semibold">
-                                CG 125
+                                {bike}
                             </span>
                             {isCouponAvailable && <span className="bg-yellow-500 text-white py-1 px-2 rounded-xl font-medium flex justify-center gap-2 items-center">
                                 <RiCouponLine />
@@ -73,7 +69,7 @@ export function ProductCard({ productProps }: { productProps: IProduct })
                         </div>
                         <div className="flex gap-2 flex-wrap justify-between">
                             <span className="flex gap-1 items-center font-medium text-neutral-400">
-                                Bike Cover
+                                {capitalize(category!)}
                             </span>
                             <span className="text-2xl font-semibold group-hover:text-primary-red">
                                 {amount.currency} {amount.price}
