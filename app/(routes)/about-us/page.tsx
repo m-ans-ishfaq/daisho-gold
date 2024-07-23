@@ -3,15 +3,30 @@ import Accordion from "@/components/ui/accordion";
 import { ContactUsForm } from "./containers/form";
 import { WordsAboutUs } from "./containers/words-about-us";
 import { WhatsappIcon } from "@/app/components/whatsapp";
+import { AboutStore } from "./containers/about-store";
+import { AboutUsCard } from "./containers/card";
+import { RulesAndRegulations } from "./containers/rules-and-regulations";
 
 export default function AboutUsPage()
 {
     return (
         <main>
             <div className="p-4 flex justify-center">
-                <div className="container px-0 lg:px-8 flex flex-col gap-4">
+                <div className="container px-0 flex flex-col gap-4">
                     <div>
                         <WordsAboutUs />
+                        <AboutStore />
+                        <div className="pb-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <AboutUsCard
+                                title="Our company history and facts"
+                                desc="Daisho gold is a 37 years old international high value company that makes two wheel vehicle engine parts. This company is well known for its high quality and high grade finishing products. Our products are specifically made for each model of the vehicle to provide you with the best products that enhances your bike driving experience better in every way possible."
+                            />
+                            <AboutUsCard
+                                title="Design & development process demonstration"
+                                desc="Daisho gold provides you with the best high quality products having the finest finishing to give you the ride experience you have never had before. The products provided by daisho gold are highly durable and are produced by measuring the products on high scale. High grade finishing enhances the riding experience to another level."
+                            />
+                        </div>
+
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
                         <section id="faqs" className="space-y-4">
@@ -37,10 +52,9 @@ export default function AboutUsPage()
                             title="Google Maps"
                         ></iframe>
                     </div>
+
+                    <RulesAndRegulations />
                 </div>
-
-                
-
             </div>
 
             <WhatsappIcon />

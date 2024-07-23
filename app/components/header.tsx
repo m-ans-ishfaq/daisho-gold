@@ -202,8 +202,8 @@ export function Header()
     }, [session]);
 
     return (
-        <header className={`z-[1001] border-b h-20 flex justify-center px-4`}>
-            <div className="container flex justify-between items-center">
+        <header className={`relative z-[1001] border-b h-20 flex justify-center px-4`}>
+            <div className="container px-0 flex justify-between items-center">
                 {/* Left Side */}
                 <div className="flex gap-4 items-center">
                     {/* Logo */}
@@ -236,7 +236,7 @@ export function Header()
                 </div>
             </div>
             {/* Mobile Exclusive */}
-            <div className={`fixed transition-all duration-300 p-4 flex justify-center bg-neutral-100  z-50 overflow-y-auto top-20 ${toggle ? 'left-0' : 'left-full'} w-full h-[calc(100vh-5rem)]`}>
+            <div className={`text-m-scale-1 fixed transition-all duration-300 p-4 flex justify-center bg-neutral-100  z-50 overflow-y-auto top-20 ${toggle ? 'left-0' : 'left-full'} w-full h-[calc(100vh-5rem)]`}>
                 <div className="container flex flex-col gap-8">
                     <SearchComponent />
                     <div className="flex flex-col gap-8">

@@ -18,6 +18,13 @@ const config = {
       },
     },
     extend: {
+      fontSize: {
+        "m-scale-0": "100%",
+        "m-scale-1": '137.5%',
+        "m-scale-2": '118.75%',
+        "d-scale-1": "62.5%",
+        "d-scale-2": "81.25%"
+      },
       colors: {
         "primary-yellow": "#e4c805",
         "primary-red": "#fb4a3c",

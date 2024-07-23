@@ -37,7 +37,7 @@ export async function getProductsForCards(query?: string|null, toExcludeIds?: st
             outOfStock: stock == 0,
             price,
             title,
-            currency: "USD",
+            currency: "PKR",
             rating: 0,
             reviews: 0,
             sold: 0

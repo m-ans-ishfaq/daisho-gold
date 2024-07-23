@@ -73,7 +73,7 @@ export function ContactUsForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="h-full flex flex-col gap-2 sm:grid sm:grid-cols-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} id="contact-us" className="h-full flex flex-col gap-2 sm:grid sm:grid-cols-2">
         <FormField
           control={form.control}
           name="fullName"

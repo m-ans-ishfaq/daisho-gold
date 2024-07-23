@@ -18,7 +18,7 @@ const responsive = {
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
-      items: 1
+      items: 2
     }
 };
 
@@ -32,7 +32,6 @@ export function OtherProducts({ products }: { products: IProduct[] })
             arrows={true}
             swipeable={true}
             draggable={false}
-            dotListClass="absolute bottom-40"
         >
             {products.map((p, i) => (
               <div key={i} className="mx-2 h-full">

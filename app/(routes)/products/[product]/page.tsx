@@ -51,8 +51,9 @@ export default async function Page({ params }: { params: { product: string } }) 
     const getStars = (stars:number) => new Array(stars).fill(0).map((_, i) => i < rating)
 
     return (
+        <>
         <main className="mt-8 flex justify-center p-4">
-            <div className="container space-y-4">
+            <div className="container px-0 flex flex-col gap-4">
                 <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
                     <div className="">
                         <ImagesGallery images={images} />
@@ -128,7 +129,8 @@ export default async function Page({ params }: { params: { product: string } }) 
                     </div>
                 )}
             </div>
-            <WhatsappIcon />
         </main>
+        <WhatsappIcon />
+        </>
     );
 }
