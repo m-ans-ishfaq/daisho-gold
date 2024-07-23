@@ -211,8 +211,13 @@ export function Header()
                             DAISHO GOLD
                         </span>
                     </Link>
-                    <div className="hidden xl:flex">
-                        <SearchComponent />
+                    {/* Desktop Exclusive */}
+                    <div className="hidden lg:flex gap-4 lg:gap-8 items-center">
+                        {session?.user && fullname ? <LoggedInComponent fullName={fullname} /> : <NotLoggedInComponent />}
+                        <CategoryComponent />
+                        <CartComponent notification={true} />
+                         <CurrencyComponent />
+                        <AboutUsComponent />
                     </div>
                 </div>
                 {/* Right Side */}
@@ -223,13 +228,8 @@ export function Header()
                     >
                         {toggle ? <MdOutlineClose /> : <MdOutlineMenu />}
                     </button>
-                    {/* Desktop Exclusive */}
-                    <div className="hidden lg:flex gap-4 lg:gap-8 items-center">
-                        {session?.user && fullname ? <LoggedInComponent fullName={fullname} /> : <NotLoggedInComponent />}
-                        <CategoryComponent />
-                        <CartComponent notification={true} />
-                         <CurrencyComponent />
-                        <AboutUsComponent />
+                    <div className="hidden xl:flex">
+                        <SearchComponent />
                     </div>
                 </div>
             </div>
