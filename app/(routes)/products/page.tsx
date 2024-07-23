@@ -89,7 +89,7 @@ export default async function Page({
             <Container>
                 <div className="py-16 flex justify-center items-center flex-col gap-4">
                     <AiOutlineClose size={24} />
-                    <p>Couldn't find any product, try disabling filters</p>
+                    <p>Couldn{"'"}t find any product, try disabling filters</p>
                 </div>
             </Container>
         )
