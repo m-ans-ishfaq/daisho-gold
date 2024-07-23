@@ -15,7 +15,7 @@ export function RulesAndRegulations()
                     <p><strong>Security Measures:</strong> Implement security measures to protect user data and prevent hacking or unauthorized access.</p>
                     <p><strong>Regulatory Compliance:</strong> Adhere to industry-specific regulations, such as those for e-commerce websites or financial institutions.</p>
                     <p><strong>Domain Name Regulations:</strong> Follow the regulations set by domain registrars and regulatory bodies regarding domain names.</p>
-                    <p>It's important to stay updated on legal requirements and industry standards to ensure your website remains compliant. Consulting with legal professionals or experts in web development and compliance can also provide valuable guidance.</p>
+                    <p>It&apos;s important to stay updated on legal requirements and industry standards to ensure your website remains compliant. Consulting with legal professionals or experts in web development and compliance can also provide valuable guidance.</p>
                 </div>
             </div>
             <div className="space-y-2">
@@ -24,9 +24,9 @@ export function RulesAndRegulations()
                     <li>Customers should ensure they have read product descriptions and specifications carefully before placing an order.</li>
                     <li>Customers must provide accurate and complete information when placing an order.</li>
                     <li>Customers must respect the agreed payment schedule and make payment promptly for products ordered.</li>
-                    <li>Customers must comply with any conditions or restrictions stated in the product description or the website's terms and conditions.</li>
+                    <li>Customers must comply with any conditions or restrictions stated in the product description or the website&apos;s terms and conditions.</li>
                     <li>Customers must not use the website to engage in any illegal or unauthorized activities or for any purpose other than purchasing bike products.</li>
-                    <li>Customers should report any issues with their orders or the product received immediately to the website's customer support.</li>
+                    <li>Customers should report any issues with their orders or the product received immediately to the website&apos;s customer support.</li>
                     <li>Customers should keep their personal and financial information secure, and report any unauthorized activity on their account immediately.</li>
                     <li>Customers should not attempt to resell products purchased from the website without express permission from the website owner.</li>
                     <li>Customers must comply with all laws and regulations that apply to the purchase and use of bike products in their country or region.</li>
