@@ -179,9 +179,11 @@ export function Header()
 
     useEffect(() => {
         if (toggle) {
-            document.body.classList.add('no-scroll');
+            document.body.classList.add('h-screen');
+            document.body.classList.add('overflow-hidden');
         } else {
-            document.body.classList.remove('no-scroll');
+            document.body.classList.remove('h-screen');
+            document.body.classList.remove('overflow-hidden');
         }
     });
 
@@ -200,7 +202,7 @@ export function Header()
     }, [session]);
 
     return (
-        <header className="relative z-[1001] border-b h-20 flex justify-center px-4">
+        <header className={`z-[1001] border-b h-20 flex justify-center px-4`}>
             <div className="container flex justify-between items-center">
                 {/* Left Side */}
                 <div className="flex gap-4 items-center">
@@ -234,7 +236,7 @@ export function Header()
                 </div>
             </div>
             {/* Mobile Exclusive */}
-            <div className={`transition-all duration-300 p-4 flex justify-center bg-neutral-100 fixed z-50 overflow-y-auto top-20 ${toggle ? 'left-0' : 'left-full'} w-full h-[calc(100vh-5rem)]`}>
+            <div className={`fixed transition-all duration-300 p-4 flex justify-center bg-neutral-100  z-50 overflow-y-auto top-20 ${toggle ? 'left-0' : 'left-full'} w-full h-[calc(100vh-5rem)]`}>
                 <div className="container flex flex-col gap-8">
                     <SearchComponent />
                     <div className="flex flex-col gap-8">
