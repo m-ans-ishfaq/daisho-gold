@@ -5,19 +5,18 @@ import { IoSearch } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
 import { FaChevronUp, FaCoins } from "react-icons/fa6";
 import { MdOutlineMenu, MdOutlineShoppingCart } from "react-icons/md";
-import { CurrencyList, DefaultCurrency, getCurrencyPreference, setCurrencyPreference } from "../lib/curreny";
+import { CurrencyList,  setCurrencyPreference } from "../lib/curreny";
 import { MdOutlineClose } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BiCategory } from "react-icons/bi";
-import { Categories } from "../(routes)/(home)/containers/categories";
-import { Category } from "../lib/category";
 import { useCurrency } from "../context/currencyContext";
 import { FaChevronDown } from "react-icons/fa6";
 import { AiOutlineUser } from "react-icons/ai";
 import { useSession } from "next-auth/react";
 import { getFullnameById } from "../(routes)/user/server";
 import { useRouter } from "next/navigation";
+import { BIKES_DATA } from "../assets/bikes";
 
 const CartComponent = ({ notification }: { notification: boolean }) => {
     return (
@@ -91,7 +90,7 @@ const CurrencyComponent = () => {
 const CategoryComponent = () => {
 
     const [showCategories, setShowCategories] = useState(false);
-    const categories = Category.getCategories();
+    const categories = BIKES_DATA;
 
     return (
         <div className="flex flex-col gap-4 group relative">
@@ -109,25 +108,25 @@ const CategoryComponent = () => {
             </div>
             {/* Mobile */}
             {showCategories && <div className="lg:hidden flex flex-col divide-y">
-                {categories.map((c,i) => (
+                {categories.map(({label},i) => (
                     <Link
                         key={i}
-                        href={`/products?bike=${encodeURIComponent(c)}`}
+                        href={`/products?bike=${encodeURIComponent(label)}`}
                         className="cursor-pointer py-2 pl-4 pr-8 w-full font-medium hover:bg-red-500 hover:text-white"
                     >
-                        {c}
+                        {label}
                     </Link>
                 ))}
             </div>}
             {/* Desktop */}
             <div className="hidden lg:group-focus-within:flex bg-white border-2 divide-y flex-col absolute top-16">
-                {categories.map((c,i) => (
+                {categories.map(({ label },i) => (
                     <Link
                         key={i}
-                        href={`/products?bike=${encodeURIComponent(c)}`}
+                        href={`/products?bike=${encodeURIComponent(label)}`}
                         className="cursor-pointer py-2 pl-4 pr-8 w-40 font-medium hover:bg-red-500 hover:text-white"
                     >
-                        {c}
+                        {label}
                     </Link>
                 ))}
             </div>

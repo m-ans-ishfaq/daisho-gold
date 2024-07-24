@@ -18,8 +18,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import { BIKES } from "@/app/assets/bikes";
+import { BIKES_DATA } from "@/app/assets/bikes";
 import { useState } from "react";
+import { PARTS_DATA } from "@/app/assets/parts";
 
 const FilterSchema = z.object({
     bike: z.string().optional(),
@@ -84,7 +85,7 @@ export default function FilterForm({ children }: any) {
                                             </FormControl>
                                             <SelectContent>
                                                 <SelectItem value="NULL">All Bikes</SelectItem>
-                                                {BIKES.map(({ label }, i) => (
+                                                {BIKES_DATA.map(({ label }, i) => (
                                                     <SelectItem key={i} value={label}>{label}</SelectItem>
                                                 ))}
                                             </SelectContent>
@@ -107,8 +108,9 @@ export default function FilterForm({ children }: any) {
                                             </FormControl>
                                             <SelectContent>
                                                 <SelectItem value="NULL">All Parts</SelectItem>
-                                                <SelectItem value="Air">Air</SelectItem>
-                                                <SelectItem value="Clutch">Clutch</SelectItem>
+                                                {PARTS_DATA.map(({label},i) => (
+                                                    <SelectItem key={i} value={label}>{label}</SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />
